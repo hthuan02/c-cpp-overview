@@ -1599,10 +1599,10 @@ int main(int argc, char const *argv[])
 >
 > **Protected**:  
 >    - Object bên ngoài không thể truy cập method, property (giống private).
->    - Class con kế thừa có thể truy cập(trong nội bộ class concon).
+>    - Class con kế thừa có thể truy cập (trong nội bộ class con).
 >
 > **Private**: 
->    - Class con kế thừa không thể truy cập (chỉ có phạm vi trong nội bộ class chacha: method, property trong nội bộ class mới truy cập được)
+>    - Class con kế thừa không thể truy cập (chỉ có phạm vi trong nội bộ class cha: method, property trong nội bộ class mới truy cập được)
 
 <details>
   <summary><h3>Part 1: Encapsulation - Tính đóng gói</h3></summary>
