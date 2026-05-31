@@ -17,11 +17,11 @@ Gồm 4 bước chính:
 ### 1. Tiền xử lý
 (chuyển file.c, file.h thành file.i)
 
-> Copy toàn bộ mã nguồn vào file main
+> Copy toàn bộ mã nguồn vào file main.i
 >
 > Xóa cmt
 >
-> Nếu sử dụng macro #define thì bị thay thế, còn lại giữ nguyên
+> Các chỉ thị tiền xử lý #define, #ifndef, #endif,.. thì bị thay thế còn lại giữ nguyên.
 
 `gcc -E main.c -o main`
 
@@ -35,7 +35,7 @@ Gồm 4 bước chính:
 ### 3. Assembler
 (chuyển file.s thành file.o)
 
-> Source code chuyển thành các đoạn mã 0 1(ngôn ngữ máy)
+> Source code chuyển thành các đoạn mã máy 0 1
 >
 > Nếu code trên VDK thì chương trình lưu vào bộ nhớ Flash
 
@@ -44,9 +44,9 @@ Gồm 4 bước chính:
 
 ## II. Marcro
 
-> Trong giai đoạn 1 tiền xử lý của quá trình Compiler thì có cacs macro hỗ trợ xử lý
+> Macro là tên do mình tự định nghĩa xảy ra ở quá trình tiền xử lý
 >
-> Marco là từ chỉ thông tin được xử lý ở quá trình tiền xử lý (preprocessor).
+> Dùng để thay thế một giá trị hoặc đoạn mã trước khi chương trình được biên dịch.
 
 ### 1. Macro chỉ thị bao hàm tệp
 
@@ -558,8 +558,6 @@ _- VD2:_
 
 - Khi gọi `longjmp` thì luồng của chương trình sẽ nhảy về `setjmp`. Sau đó, gán giá trị của `int value` vào giá trị mới của `setjmp`
 
-_- VD3:_
-
 
 ### 3. Xử lý ngoại lệ(TRY, CATCH, THROW)
 
@@ -569,11 +567,14 @@ _- VD3:_
 <details>
   <summary><h3>Bài 7: Struct & Union</h3></summary>
 
-## 1. Struct
+## 1. Bit field
+> Bit field dùng để quy định số bit cụ thể cho các thành viên trong struct để sử dụng.
 
-> Struct là 1 dạng kiểu dữ liệu, cho phép người dùng tự định nghĩa. Nhóm các kiểu dữ liệu như: int, char, double,... lại thành kiểu dữ liệu mới. 
+## 2. Struct
+
+> Struct là 1 kiểu dữ liệu, cho phép người dùng tự định nghĩa. Nhóm các biến khác kiểu dữ liệu tạo thành 1 kiểu dữ liệu mới. 
 >
-> Kích thước của Struct = Tổng các kích thước dữ liệu + padding 
+> Kích thước của struct = kích thước tất cả member + padding do compiler thêm vào để đảm bảo data alignment.
 
 
 ```c
@@ -630,9 +631,9 @@ _VD1:_
 ```
 ## Data alignment & padding
 
-- Data alignment: Là việc canh chỉnh, sắp xếp dữ liệu được sắp xếp dữ liệu vào đúng kích thước của CPU (gồm 2 byte, 4 byte, 8 byte,..). Đảm bảo hiệu suất hoạt động của bộ nhớ, dễ dàng truy cập và xử lý nhanh hơn.
+- Data alignment: Là việc sắp xếp dữ liệu tại địa chỉ bộ nhớ phù hợp với yêu cầu của CPU (2 byte, 4 byte, 8 byte, 16 byte,...). Tăng tốc độ truy cập & xử lý dữ liệu
 
-- Padding(đệm vào): Khi canh chỉnh, sắp xếp bộ nhớ còn dư ra 1 vài byte trên tổng số ổ đĩa thì đó là padding.
+- Padding(đệm vào): Là các byte được compiler chèn vị trí giữa hoặc cuối của struct, để đảm bảo alignment dữ liệu 
 
 ```c
     //double(8byte): Chia het 8, 0x00 0x08 0x10 0x18,..
@@ -650,13 +651,13 @@ _VD1:_
       uint8_t var2; //1byte
       uint16_t var3; //2byte
     } data;
+
+    // 4
+    //1
+    //2
+    // 8 (1padding)
 ```
-- Giải thích: Ưu tiên kích thước dữ liệu lớn nhất làm chuẩn (4byte).
-    - var1 (4byte)
 
-    - var2 (1byte) + var3 (2byte) = 3 byte (dư 1 byte) -> 1 padding
-
-    - Tổng = 8
 
 **_VD3: Tìm kích thước_**
 
@@ -666,35 +667,52 @@ _VD1:_
       uint16_t var3[10]; //2byte
       uint32_t var4[2]; //4byte
 
+
+    //  1*8
+    //  1 + 7pad
+    //  8*3
+    //  2*4
+    //  2*4
+    //  2*2 + 4
+    //  4*1 + 4pad
+    // tổng: 72 bytes(11 padding) 
 ```
-
-- Giải thích:
-    - Kích thước lớn nhất là 8 byte.
-    
-    - var1: 8byte(làm chuẩn) + (1byte lẻ + 7padding) = 16  
-    
-    - var2: 8byte *3 = 24
-    
-    - var3: 8byte *2 + (4byte lẻ + 4padding) = 24
-    
-    - var4: 8byte
-    
-    - Tổng kích thước = 72 byte
-
 ### Ứng dụng của Struct: 
     
 - Json
 - Cấu trúc dữ liệu list
 - Giao thức trong MCU, mỗi thông số đều có cấu hình khác nhau -> Dùng Struct để gom các thông số về.
 
-## 2. Union
+## Phân mảnh bộ nhớ
+- Từ khóa `#pragma pack(n)` dùng để chống phân mảnh bộ nhớ. Ép complier không được padding phần từ của struct
 
+```c
+typedef struct 
+{
+    char index;     // 1
+    int class;      // 4
+    double student; // 8
+}student_t;
+
+// 16 byte (3 padding)
+```
+
+```c
+typedef struct 
+{
+    char index;     // 1
+    int class;      // 4
+    double student; // 8
+}student_t;
+
+
+```
+
+## 3. Union
+
+> Là kiểu dữ liệu người dùng tự định nghĩa, các member sử dụng chung vùng nhớ
 >
-> Giống với struct, đây là kiểu dữ liệu người dùng tự định nghĩa bằng cách nhóm các kiểu dữ liệu lại.
->
-> Union sử dụng chung vùng nhớ, các thành phần đều chung địa chỉ -> Giá trị này thay đổi thì những giá trị khác sẽ thay đổi.
->
-> Kích thước Union = Tổng member có kích thước lớn nhất + padding.
+> Tại 1 thời điểm union chỉ lưu giá trị 1 member, kích thước union = kích thước của member lớn nhất + padding do compiler thêm vào để đảm bảo alignment(nếu có).
 
 **_VD4: Kiểm tra kích thước của Union_**
 ```c    
@@ -707,7 +725,7 @@ typedef union
     uint32_t var2; // 4 byte
     uint16_t var3; // 2 byte
 
-    // Union sẽ lấy kiểu dữ liệu có kích thước lớn nhất 24 byte
+    // Union sẽ lấy kiểu dữ liệu có kích thước lớn nhất 4 byte
 } frame;
 
 int main(int argc, char const *argv[])
@@ -761,6 +779,8 @@ int main(int argc, char const *argv[])
     -  var2: 4byte = 4294967294 (4 ô địa chỉ)
 
     -  var3: 2byte = 65534 (0x01+0x02)
+## 4. Struct lồng trong Union
+
 
 </details>
 
@@ -1231,48 +1251,103 @@ _VD2: Khởi tạo vùng nhớ quá lớn_
 <details>
   <summary><h3>Bài 11: Stack - Queue</h3></summary> 
 
-## I. Stack
-(Last in - First Out) --> Ngăn xếp
+## I. Stack (LIFO)
+> Stack là cấu trúc dữ liệu hoạt động theo kiểu ngăn xếp. Phần tử thêm vào sau sẽ lấy ra trước (Last In-First Out).
 
-- Phần vào sau cùng thì lấy ra tước tiên và ngược lại.
+Có 5 thao tác với stack:
+- `push`: thêm phần tử ở đỉnh stack (++top, tăng trước-đọc/ghi sau)
+- `pop/peak`: xóa/lấy phần tử ở đỉnh stack (top--, đọc/ghi trước-xóa sau)
+- `top`: đọc giá trị tại đỉnh stack
+- kiểm tra stack `isEmpty`: top = -1
+- kiểm tra stack `isFull`: top = maxSize -1
 
-- Gồm 3 thao tác:
+Khởi tạo giá trị ban đầu stack
+```c
+int items[maxSize]; // tạo mảng để chứa các phần tử stack
+int size = maxSize; // tạo biến, kích thước của stack
+int top = -1;       // tạo giá trị ban đầu của đỉnh stack
 
-      - push: Thêm phần tử vào ở đỉnh stack(top++)
-  
-      - pop: Xóa 1 phần tử đỉnh stack(top--)
-  
-      - top: giá trị phần tử của đỉnh (Maxtop = size -1)
+// `items[]` có thể tạo con trỏ `*items`
+// Cần cấp phát động `malloc`, sau đó `free` để thu hồi
+```
 
+## II. Queue (FIFO)
+> Queue là cấu trúc dữ liệu hàng đợi, hoạt động theo nguyên tắc phần tử thêm vào trước thì lấy ra trước (First In-First Out)
 
-## II. Queue
-(First in - First out) --> Hàng đợi 
+Gổm các thao tác:
+- `enqueue`: thêm phần tử ở đầu queue (++rear, tăng trước-đọc/ghi sau) -> giống stack
+- `dequeue`: lấy phần tử ở cuối queue (front++, đọc/ghi trước-tăng sau) 
+-> Vì queue lấy phần tử đầu hàng đợi trước, ban đầu phần tử 1 front = 0. Khi lấy phần tử 1 thì front = 1 (front tăng)
+- `front`: Đọc giá trị phần tử ở đầu queue 
+- `rear`: Đọc giá trị phần tử ở cuối queue
 
-- Phần tử vào đầu thì ra đầu, vào cuối thì ra cuối
+**LINEAR:**
+- kiểm tra rỗng `isEmpty`: front = rear = -1 hoặc front > rear
+- kiểm tra đầy `isFull`: rear = maxSize - 1
 
-- Gổm 3 thao tác:
+**CIRCULAR:**
+- `isEmpty`: front = -1
+- `isFull`: front = (rear + 1) % maxSize
+Khởi tạo giá trị ban đầu của queue
+```c
+int items[100]; //tạo mảng để lưu các phần tử của queue
+int size = MAX_LINEAR;
+int front = rear = -1;
 
-      - enqueue: Thêm phần tử cuối hàng đợi (rear++)
-  
-      - dequeue: Lấy(loại bỏ) phần tử đầu hàng đợi (front++)
+```
 
-      - front: Lấy giá trị phẩn tử đầu hàng đợi
+### 1. Linear Queue
 
-      - rear: Lấy giá trị phần tủ cuối hàng đợi
+```c
+// enqueue
+int enqueue(Queue *q, int data)
+{
+    if (isFull(*q)) return -1;
 
-Ngoài ra, nếu rỗng:
+    if (q->front == -1)
+    {
+        q->front = 0;
+    }
 
-- Max_front = Max_rear = size -1 
+    q->items[++q->rear] = data;
 
-- enqueue = -1
+    return data;
+}
 
-- dequeue = -1
+// dequeue
+int dequeue(Queue *q)
+{
+    if (isEmpty(*q))
+    {
+        printf("Queue empty!\n");
+        return -1;
+    }
 
-### 1. Linear Queue (hàng đợi tuyến tính)
+    int value = q->items[q->front];
 
-> Các phần tử được sắp xếp theo thứ tự tuyến tính, tức là mỗi phần tử đứng sau phần tử khác trong một hàng dọc.
+    q->front++;  // QUAN TRỌNG
 
-### 2. Circular Queue (hàng đợi vòng tròn)
+    // Nếu dequeue xong hết phần tử
+    if (q->front > q->rear)
+    {
+        q->front = q->rear = -1;
+    }
+
+    return value;
+}
+```
+
+Hàng đợi tuyến tính, phần tử thêm vào trước sẽ lấy ra trước. Khi muốn thêm 1 phần tử mới phải đảm bảo lấy hết tất cả phần tử trước đó mới được thêm phần tử mới
+
+[1 2 3 4 5] -> dequeue 1 2 3
+[_ _ _ 4 5]
+-> không thể enqueue vào 3 phần tử đầu tiên, cũng chẳng thể enqueue vào phần tử sau năm
+
+[_ _ _ _ _] -> dequeue hết, lúc này có thể enqueue phần tử mới
+
+**Nhược điểm:** Không thể tái sử dụng vùng nhớ đã dequeue(lãng phí bộ nhớ). `circular queue` là cách khắc phục.
+
+### 2. Circular Queue 
 
 > Phần tử cuối cùng của hàng đợi được kết nối với phần tử đầu tiên, tạo thành một vòng tròn.
 
