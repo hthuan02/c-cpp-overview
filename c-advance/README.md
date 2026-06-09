@@ -565,12 +565,9 @@ _- VD2:_
 
 
 <details>
-  <summary><h3>Bài 7: Struct & Union</h3></summary>
+  <summary><h3>Bài 7: Struct - Union - Enum & Bit Field</h3></summary>
 
-## 1. Bit field
-> Bit field dùng để quy định số bit cụ thể cho các thành viên trong struct để sử dụng.
-
-## 2. Struct
+## 1. Struct
 
 > Struct là 1 kiểu dữ liệu, cho phép người dùng tự định nghĩa. Nhóm các biến khác kiểu dữ liệu tạo thành 1 kiểu dữ liệu mới. 
 >
@@ -631,31 +628,20 @@ _VD1:_
 ```
 ## Data alignment & padding
 
-- Data alignment: Là việc sắp xếp dữ liệu tại địa chỉ bộ nhớ phù hợp với yêu cầu của CPU (2 byte, 4 byte, 8 byte, 16 byte,...). Tăng tốc độ truy cập & xử lý dữ liệu
+- Data alignment: Là việc sắp xếp dữ liệu tại địa chỉ bộ nhớ phù hợp với yêu cầu của CPU, đảm bảo nằm ở vị trí biên (2 byte, 4 byte, 8 byte, 16 byte,...) --> Tăng tốc độ truy cập & xử lý dữ liệu
 
-- Padding(đệm vào): Là các byte được compiler chèn vị trí giữa hoặc cuối của struct, để đảm bảo alignment dữ liệu 
-
-```c
-    //double(8byte): Chia het 8, 0x00 0x08 0x10 0x18,..
-    //int, int32_t, uint32_t(4byte): 0x00 0x04 0x08 0x0C...
-    //float, init16_t, uint16_t(2byte): 0x00 0x02 0x04 0x06...
-    //padding
-```
-➡️ Kích thước của Struct = tổng các kiểu dữ liệu + padding
+- Padding(đệm vào): Là các byte trống được compiler chèn vị trí giữa hoặc cuối của struct, để đảm bảo alignment dữ liệu. 
   
 **_VD2: Tìm kích thước struct VD1_**
 
 ```c
     typedef struct {
-      uint32_t var1; //Chia hết cho 8 (4byte) 
-      uint8_t var2; //1byte
-      uint16_t var3; //2byte
+      uint32_t var1; //4
+      uint8_t var2;  //1
+      uint16_t var3; //2
     } data;
 
-    // 4
-    //1
-    //2
-    // 8 (1padding)
+    // 8 byte (1 pad)
 ```
 
 
@@ -677,58 +663,70 @@ _VD1:_
     //  4*1 + 4pad
     // tổng: 72 bytes(11 padding) 
 ```
-### Ứng dụng của Struct: 
-    
-- Json
-- Cấu trúc dữ liệu list
-- Giao thức trong MCU, mỗi thông số đều có cấu hình khác nhau -> Dùng Struct để gom các thông số về.
 
 ## Phân mảnh bộ nhớ
-- Từ khóa `#pragma pack(n)` dùng để chống phân mảnh bộ nhớ. Ép complier không được padding phần từ của struct
+- Từ khóa `#pragma pack(n)` dùng để chống phân mảnh bộ nhớ. Ép complier không được padding phần từ của struct.
+- Nhược điểm: hạn chế tốc độ truy cập bộ nhớ, nên thông thường tạo struct thì nên tạo biến kích thước cao -> thấp.
+- Ứng dụng: Khôi phục dữ liệu, truyền data MCU A -> MCU B (MCU B muốn lấy lại toàn bộ data từ MCU A), để không bị lệch data rơi vào padding
 
 ```c
+#include <stdio.h>
+
 typedef struct 
 {
-    char index;     // 1
+    char ID;        // 1
     int class;      // 4
     double student; // 8
 }student_t;
 
-// 16 byte (3 padding)
+int main ()
+{
+    student_t name;
+    printf("Size of struct: %d\n", sizeof(name)); // 16 byte (3 padding)
+
+}
 ```
 
 ```c
+#include <stdio.h>
+
+#pragma pack(1) // cấp phát từng byte 1
 typedef struct 
 {
-    char index;     // 1
+    char ID;        // 1
     int class;      // 4
     double student; // 8
 }student_t;
 
+#pragma pack()
 
+int main ()
+{
+    student_t name;
+    printf("Size of struct: %d\n", sizeof(name)); // 13
+
+}
 ```
 
-## 3. Union
+## 2. Union
 
 > Là kiểu dữ liệu người dùng tự định nghĩa, các member sử dụng chung vùng nhớ
 >
 > Tại 1 thời điểm union chỉ lưu giá trị 1 member, kích thước union = kích thước của member lớn nhất + padding do compiler thêm vào để đảm bảo alignment(nếu có).
 
-**_VD4: Kiểm tra kích thước của Union_**
+#### VD1: Tính kích thước của Union
 ```c    
 #include <stdio.h>
 #include <stdint.h>
 
 typedef union
 {
-    uint8_t var1; // 1byte
-    uint32_t var2; // 4 byte
-    uint16_t var3; // 2 byte
-
-    // Union sẽ lấy kiểu dữ liệu có kích thước lớn nhất 4 byte
+    uint8_t var1; 
+    uint32_t var2;  
+    uint16_t var3; 
 } frame;
 
-int main(int argc, char const *argv[])
+int main()
 {
 
     printf("Size = %d\n", sizeof(frame)); //Kích thước lớn nhất 4byte
@@ -746,7 +744,77 @@ int main(int argc, char const *argv[])
 }
 ```
 
-**Trường hợp đặc biệt của VD4:**
+#### VD2: Truy xuất giá trị trong Union
+
+```c
+#include <stdio.h>
+#include <stdint.h>
+
+typedef union
+{
+    uint32_t value; // 4 byte
+    uint8_t byte;   // 1 byte
+} data_t;
+
+int main()
+{
+    data_t data;
+
+    data.value = 0x12345678;
+
+    /* 0x78: LSB(Least Significant Bit): Trọng số thấp nhất
+     * 0x12: MSB(Most Significant Bit): Trọng số cao nhất
+     * 0x12 0x34 0x56 0x78
+     * --> Ta có: 4 cặp bit tương ứng với kiểu dữ liệu lớn nhất là int 4 byte
+     * data.byte = 0x78
+     * data.value = 0x12345678
+     * 
+     */
+
+    printf("value = 0x%X\n", data.value);   
+    printf("byte  = 0x%X\n", data.byte);
+
+
+    return 0;
+}
+```
+
+#### VD2.1: Truy xuất giá trị trong Union
+
+```c
+#include <stdio.h>
+#include <stdint.h>
+
+typedef union
+{
+    uint64_t value; // 8 byte
+    uint8_t byte;   // 1 byte
+} data_t;
+
+int main()
+{
+    data_t data;
+
+    data.value = 0x12345678;
+
+    /* 0x78: LSB(Least Significant Bit): Trọng số thấp nhất
+     * 0x12: MSB(Most Significant Bit): Trọng số cao nhất
+     * 0x00 0x00 0x00 x00 0x12 0x34 0x56 0x78
+     * --> Ta có: 4 cặp bit tương ứng với kiểu dữ liệu lớn nhất là int 4 byte
+     * data.byte = 0x78
+     * data.value = 0x12345678
+     * 
+     */
+
+    printf("value = 0x%X\n", data.value);   
+    printf("byte  = 0x%X\n", data.byte);
+
+
+    return 0;
+}
+```
+
+#### VD3: Tràn số trong Union
 
 ```c
     int main(int argc, char const *argv[])
@@ -769,17 +837,133 @@ int main(int argc, char const *argv[])
     
     - Địa chỉ bắt đầu, 0x01 lưu byte thấp nhất.
   
-        | 0x01 | 0x02 | 0x03|0x04|
-        | :---: | --- | ---: | ---: |
-        | 11111110 | 11111111 | 11111111 | 11111111 |
-        | 254 | 65535 | 65535 | 65535 |
+        | 0x04 | 0x03 | 0x02 | 0x01 |
+        | :---: | :---: | :---: | :---: |
+        | 11111111 | 11111111 | 11111111 | 11111110 |
+        | 65535 | 65535 | 65535 | 254 |
 
     -  var1: 1byte = 254 (0x01)
   
     -  var2: 4byte = 4294967294 (4 ô địa chỉ)
 
     -  var3: 2byte = 65534 (0x01+0x02)
-## 4. Struct lồng trong Union
+
+
+## 3. Enum
+> Enum là kiểu dữ liệu tự định nghĩa như struct/union, dùng để gán tên cho các hằng số.
+
+- `enum` thường dùng định nghĩa mã lỗi hoặc mã trả về
+- Ứng dụng: state machine (trạng thái máy) dùng config các mode của button kết hợp với enum 
+
+```c
+#include <stdio.h>
+
+typedef enum 
+{
+    STACK_OVER_FLOW,
+    MEMORY_LEAK,
+    PARAM_INVALID,
+    HAL_OK
+}status_t;
+
+int main ()
+{
+
+    return 0;
+}
+```
+## 4. Bit field
+> Bit field được sử dụng trong struct/union, dùng để quy định số bit cụ thể cho từng thành viên thay vì sử dụng toàn bộ kích thước của kiểu dữ liệu. Nhằm tối ưu bộ nhớ & tăng hiệu suất chương trình.
+
+- Bit-field struct thì mỗi field chiếm một số bit riêng nên không ghi đè lên nhau. Nếu các field có cùng kiểu dữ liệu thì compiler sẽ tối ưu bằng cách đóng gói vào chung 1 vùng nhớ.
+
+- Bit-field trong union dùng chung một vùng nhớ, các field có thể ghi đè dữ liệu lên nhau.
+#### Bit-field với struct
+
+```c
+typedef struct
+{
+    unsigned int enable : 1;  // 1 bit
+    unsigned int mode   : 2;  // 2 bit
+    unsigned int speed  : 3;  // 3 bit
+}status_t;
+
+// bit-field cùng kiểu -> compiler gom vào `unsigned int`.
+// 32 bit (26 padd)
+```
+
+```c
+typedef struct
+{
+    uint8_t  a : 3; 
+    uint16_t b : 5;  
+    uint32_t c : 10; 
+}test_t;
+
+// bit-field khác kiểu
+// 1 + 1 padd
+// 2
+// 4
+// 8 byte (1 padd)
+```
+
+#### Bit-field với union 
+_(Sử dụng nhiều trong Embedded)_
+--> Thao tác trong thanh ghi MCU
+--> Tối ưu hóa, tiết kiệm bộ nhớ
+
+
+```c
+typedef union
+{
+    uint8_t  a : 3;  // 3 / 8  bit
+    uint16_t b : 5;  // 5 / 16 bit
+    uint32_t c : 10; // 10/ 32 bit
+}test_t;
+
+// bit-field khác kiểu
+// 4 byte (14 padd)
+```
+
+#### Struct lồng trong Union
+
+<img width="615" height="340" alt="Image" src="https://github.com/user-attachments/assets/bfb5cbed-2db5-40e2-af45-298ba96de2b7" />
+
+```c
+typedef volatile struct {
+    uint8_t TX_EN       : 1; // Bit 0: Transmit Enable
+    uint8_t RX_EN       : 1; // Bit 1: Receive Enable
+    uint8_t BAUD_PRESC  : 2; // Bit 2-3: Baud Prescaler
+    uint8_t PARITY_EN   : 1; // Bit 4: Parity Enable
+    uint8_t PARITY_TYPE : 1; // Bit 5: Parity Type
+    uint8_t RSVD        : 2; // Bit 6-7: Reserved
+} UART_CR_BITS_t;
+
+typedef union {
+    uint8_t           byte_access; // Truy cập toàn bộ byte
+    UART_CR_BITS_t    bits;       // Truy cập từng bit
+} UART_CR_REG_t;
+```
+hoặc
+```c
+typedef union
+{
+    volatile uint8_t REG;
+
+    struct
+    {
+        uint8_t TX_EN       : 1;
+        uint8_t RX_EN       : 1;
+        uint8_t BAUD_PRESC  : 2;
+        uint8_t PARITY_EN   : 1;
+        uint8_t PARITY_TYPE : 1;
+        uint8_t RSVD        : 2;
+    } BITS;
+} UART_CR_REG_t;
+// Kích thước struct
+// Dùng chung kiểu dữ liệu, complier gom lại chung 1 vùng nhớ `uint8_t`: 8 bit
+// union: sizeof 1 byte 
+```
 
 
 </details>
