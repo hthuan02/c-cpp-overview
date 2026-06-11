@@ -104,12 +104,12 @@ _VD:_  STM32/32bit ---> 4byte
 ## 2. Regular Pointer(Con trỏ với biến)
 ```c
     int a = 10;
-    int * ptr = &a;
+    int *ptr = &a;
 
     //Truy xuat con tro
     printf("Dia chi: %p\n", &a); // dia chi cua a
     printf("Dia chi: %p\n", ptr); // dia chi ma ptr tro den 
-    printf("Gia tri tai dia chi: %d\n", *ptr); // a = 10
+    printf("Gia tri con tro: %d\n", *ptr); // giai tham chieu con tro ptr
 ```
 
 ## 3. Array Pointer(Con trỏ mảng)
@@ -900,18 +900,11 @@ typedef struct
     uint32_t c : 10; 
 }test_t;
 
-// bit-field khác kiểu
-// 1 + 1 padd
-// 2
-// 4
-// 8 byte (1 padd)
+// bit-field khác kiểu dữ liệu
+// Tổng kích thước compiler cấp phát là 64 bits, nhưng compiler chỉ dùng 18 bits. Còn  lại là bit trống
 ```
 
 #### Bit-field với union 
-_(Sử dụng nhiều trong Embedded)_
---> Thao tác trong thanh ghi MCU
---> Tối ưu hóa, tiết kiệm bộ nhớ
-
 
 ```c
 typedef union
@@ -925,7 +918,11 @@ typedef union
 // 4 byte (14 padd)
 ```
 
-#### Struct lồng trong Union
+#### Bit-field Struct lồng trong Union
+
+_(Sử dụng nhiều trong Embedded)_
+--> Thao tác trong thanh ghi MCU
+--> Tối ưu hóa, tiết kiệm bộ nhớ
 
 <img width="615" height="340" alt="Image" src="https://github.com/user-attachments/assets/bfb5cbed-2db5-40e2-af45-298ba96de2b7" />
 
