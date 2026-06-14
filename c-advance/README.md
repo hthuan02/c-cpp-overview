@@ -129,9 +129,9 @@ _VD:_  STM32/32bit ---> 4byte
 ```
 
 ## 4. Void Pointer
-   > Là 1 biến, có thể trỏ đến bất kỳ địa chỉ có kiểu dữ liệu nào cũng được, nó không quan tâm các kiểu dữ liệu như (char, int, float, double,...).
-
-   - Ưu điểm: Tại địa chỉ trỏ đến có thể đọc và thay đổi giá trị, với điều kiện phải ép kiểu con trỏ void.
+> Là con trỏ không có kiểu dữ liệu cụ thể, và nó có thể trỏ đến bất kỳ biến có kiểu dữ liệu nào cũng được
+>
+> Vì không có kiểu dữ liêu cụ thể, nên không dùng giải tham chiếu con trỏ tính kích thước --> Ép kiểu mới tính được kích thước.
 
 ```c
     void * ptr; //Khai bao con tro Void
@@ -155,7 +155,7 @@ _VD:_  STM32/32bit ---> 4byte
 ```
 
 ## 5. Function Pointer
-> Là 1 biến, có thể trỏ đến địa chỉ của 1 hàm có kiểu dữ liệu cụ thể.
+> Là con trỏ có thể trỏ đến địa chỉ của 1 hàm có kiểu dữ liệu cụ thể.
 >
 >Đây là biến giữ địa chỉ của hàm, mỗi thời điểm chỉ trỏ 1 hàm.
 
@@ -195,11 +195,9 @@ _VD:_  STM32/32bit ---> 4byte
     }
 ```
 
-## 6. Pointer to Constant(Con trỏ hằng)
+## 6. Pointer to Constant (Con trỏ hằng)
 
-> Khi trỏ đến 1 địa chỉ, không thể thay đổi đc giá trị tại địa chỉ đó (chỉ có thể đọc và không thể thay đổi).
->
-> Có thể trỏ đến nhiều địa chỉ khác nhau.
+> Có thể thay đổi được địa chỉ, không thể thay đổi được giá trị
 
 ```c
     int const *ptr_const;
@@ -229,9 +227,9 @@ _VD:_  STM32/32bit ---> 4byte
 ```
 ## 7. Constant Pointer(Hằng con trỏ)
 
-> Tại địa chỉ trỏ đến không thể thay đổi được địa chỉ, còn giá trị có thể thay đổi được.
+> Là con trỏ thay đổi được giá trị, không thể thay đổi được địac chỉ
 >
-> Chỉ trỏ đến 1 địa chỉ cố đinh, khi đã trỏ đến 1 địa chỉ rồi thì không thể trỏ đến địa chỉ khác được nữa.
+> Chỉ trỏ đến 1 địa chỉ cố định, không thể trỏ đến địa chỉ khác được nữa.
 
 ```c
     int *const const_ptr = &value;
@@ -246,7 +244,7 @@ _VD:_  STM32/32bit ---> 4byte
     int b = 3; // Khong khai bao duoc const_ptr cua b!!!
     int *const const_ptr = &a;
 
-    int main(int argc, char const *argv[])
+    int main()
     {
         printf("%p\n", const_ptr);
         printf("%d\n", *const_ptr); //ptr_const = 10

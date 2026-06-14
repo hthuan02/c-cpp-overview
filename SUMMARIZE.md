@@ -123,30 +123,10 @@ int main ()
     return 0;
 }
 
-#### INTERVIEW: int (*p)[5] và int *p[5] gì khác nhau?
-
-int (*p) [5] --> là con trỏ trỏ đến mảng
-             --> kích thước 8 byte, chiếm 1 ô nhó
-
-int *p [5] --> là 1 mảng 5 phần tử là con trỏ
-           --> kích thước 5 * 8 (dựa vào kiến trúc máy tính) = 40 byte, chiếm 5 ô nhớ 
-
-
-Phần này thuộc về void pointer rồi
-VD: 
-#include <stdio.h>
-
-int main ()
-{
-    int arr[] = {0x01, 0x02, 0x03, 0x04};
-    int *ptt = arr;
-    printf("%p\n", arr);        // 0x00
-    printf("%p\n", arr + 1);    // 0x04
-
-    printf("%p\n", &arr);       // 0x00 -> <sizeof(int) * 4 = 16
-    printf("%p\n", &(arr + 1)); // 0x10
-
-
-
-    return 0;
-}
+Phân loại con trỏ
+X- void ptr
+X- ptr const
+X- const to ptr
+- function ptr
+- null ptr
+- ptr to ptr
