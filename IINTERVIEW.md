@@ -15,13 +15,14 @@ MCU
 Others: Git, debug register
 
 
-# PLAN A - intern (khó xảy ra)
+# (FAIL X-X) PLAN A - intern (khó xảy ra)
 (Hoàn cảnh hiện tại 9.6.26)
 
 - Ôn CV
-- Pass FPT
+- Apply intern hơn 5 cty rồi
+- FPT Software
 
-# PLAN B - fresher
+# PLAN B - FRESHERRRRRRRR
 (Trường hợp hoàn thành được trước 7.8.26 đổ lại)
 
 - Chuẩn bị cho 2 tháng tới

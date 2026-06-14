@@ -8,6 +8,7 @@ int main ()
     // Truy cập giá trị của mảng
     printf("%d\n", *(ptr+1));
     printf("%d\n", arr[1]);
+    printf("%d\n", ptr[1]);
 
     // Truy cập địa chỉ của mảng
     printf("%p\n", (ptr + 0)); 
@@ -29,6 +30,15 @@ int main ()
      *  - `&arr` là đại diện cho toàn bộ mảng `arr[]`
      *  --> Nếu `&arr + 1` thì địa chỉ của mảng dịch 20 byte (kích thước của mảng)
      */
+
+    // int arr[5];
+
+    // printf("%p\n", arr);      // 0x1000
+    // printf("%p\n", arr + 1);  // 0x1004
+
+    // printf("%p\n", &arr);     // 0x1000
+    // printf("%p\n", &arr + 1); // 0x1014
+
     printf("%p\n", &arr[0]);
     printf("%p\n", arr); 
     printf("%p\n", &arr);

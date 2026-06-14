@@ -65,3 +65,88 @@ VD: Cho mảng 5 phần tử, enqueue cả 5 phần tử, sau đó dequeue 2 ph�
 - Circular: Giá trị front, rear có thể xoay vòng dựa vào dấu `%` (front = (front + 1) % size, rear = (rear + 1) % size). Vì vậy khắc phục đc tình trạng lãng phí ô nhớ của linear. Có thể enqueue phần tử vào 2 ô trống ở đầu được. (Đến khi front == rear thì front = -1 rỗng dừng)
 
 # Pointer?
+ptr?
+truy cập giá trị? địa chỉ?
+--> dereference
+
+// biến 
+
+int x = 10;
+int *ptr = &x;
+
+--> truy cập giá trị %d
+*ptr hoặc x
+
+--> truy cập địa chỉ %p
+ptr hoặc &x
+
+// mảng
+
+int arr[] = {0x01, 0x02, 0x03, 0x04};
+int *ptr = arr; // arr hoặc &arr[0]
+
+--> truy cập giá trị %d
+- phần tử thứ nhất: *ptr  hoặc arr[0]
+- phần tử thứ 2: *(ptr+1) hoặc arr[1]
+- phần tử thứ 3: *(ptr+2) hoặc ar2[2]
+
+--> Truy cập địa chỉ %p
+- phần tử thứ nhất: ptr hoặc &arr[0]
+- phần tử thứ 2: ptr+1 hoặc &arr[1]
+- phần tử thú 3: ptr+2 hoặc &arr[2]
+
+// trường hợp khác về mảng
+--> truy cập giá trị các phần tử của mảng
+arr[2] hoặc 2[arr] là *(arr + 2)
+
+--> truy cập giá trị
+- arr: tên mảng
+- &arr[0]: phần tử đầu tiên của mảng
+====> 2 cái này như nhau
+
+arr vs &arr khác nhau:
+- arr là truy cập mảng hay còn gọi là phần tử đầu tiên của mảng, nên  khi + 1 địa chỉ tăng lên theo byte <data_type>
+- &arr là truy cập toàn bộ mảng, khi + 1 thì địa chỉ tăng lên theo tổng số byte <data_type>
+
+// kích thước
+#include <stdio.h>
+
+int main ()
+{
+    int arr[] = {0x01, 0x02, 0x03, 0x04};
+    int *ptr = arr;
+
+    printf("%d\n", sizeof(ptr));  // 8 - kích thước con trỏ phụ thuộc vào kiến trúc máy tính
+    printf("%d\n", sizeof(*ptr)); // 4 - kích thước của kiểu dữ liệu mà con trỏ nó trỏ đến
+    printf("%d\n", sizeof(arr));  // 16 - kích thước của mảng
+
+    return 0;
+}
+
+#### INTERVIEW: int (*p)[5] và int *p[5] gì khác nhau?
+
+int (*p) [5] --> là con trỏ trỏ đến mảng
+             --> kích thước 8 byte, chiếm 1 ô nhó
+
+int *p [5] --> là 1 mảng 5 phần tử là con trỏ
+           --> kích thước 5 * 8 (dựa vào kiến trúc máy tính) = 40 byte, chiếm 5 ô nhớ 
+
+
+Phần này thuộc về void pointer rồi
+VD: 
+#include <stdio.h>
+
+int main ()
+{
+    int arr[] = {0x01, 0x02, 0x03, 0x04};
+    int *ptt = arr;
+    printf("%p\n", arr);        // 0x00
+    printf("%p\n", arr + 1);    // 0x04
+
+    printf("%p\n", &arr);       // 0x00 -> <sizeof(int) * 4 = 16
+    printf("%p\n", &(arr + 1)); // 0x10
+
+
+
+    return 0;
+}
