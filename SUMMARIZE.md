@@ -127,6 +127,42 @@ Phân loại con trỏ
 X- void ptr
 X- ptr const
 X- const to ptr
-- function ptr
-- null ptr
-- ptr to ptr
+- null ptr (cấp phát bộ nhớ động)
+- ptr to ptr (linked list)
+
+--> Học lại linked list để luyện 2 con trỏ này
+
+- function ptr (call back)
+Ứng dụng 1: Làm Callback Function (Xử lý sự kiện / Lập trình nhúng)
+Hãy tưởng tượng bạn viết một hệ thống nút nhấn trên phần cứng (STM32). Bạn không muốn mỗi lần nút nhấn được bấm, nó lại chạy cố định một hành động. Bạn muốn:
+
+Hôm nay bấm nút thì Bật Đèn.
+
+Mai bấm nút thì Kêu Còi.
+
+Bạn chỉ cần viết một hàm xử lý nút nhấn nhận vào một Con trỏ hàm (Callback). Khi nút được bấm, nó sẽ kích hoạt cái hàm nằm trong con trỏ đó.
+
+Ứng dụng 2: Tối ưu cấu trúc lệnh rẽ nhánh (Thay thế cho chuỗi if-else hoặc switch-case quá dài)
+Thay vì viết một rừng if (luachon == 1) tong(); else if (luachon == 2) hieu(); ..., bạn có thể tạo một Mảng con trỏ hàm (như ví dụ ở tài liệu ban đầu của bạn). Khi người dùng chọn menu i, bạn chỉ cần gọi cal[i](a, b);. Code sẽ chạy cực nhanh và gọn gàng
+
+
+
+hiện tại đã học
+- void ptr
+- ptr const
+- const to ptr
+
+--> tiếp tục học null ptr & ptr to ptr, nhưng bị trở ngại chưa áp dụng được vào bài tập
+==> nên tiếp theoo học linked list
+- linked list mới chỉ nắm được khái niệm, chưa thao tác được
+
+--> trước khi thao tác linked list. Thì xem lại thao tác với mảng gồm
+- thêm/xóa/sửa mảng
+- sắp xếp mảng tăng/giảm
+- tách mảng, gộp mảng
+- min/max mảng
+
+===> 1. học lại thao tác vs mảng
+     2. Thao tác với linked list
+     3. con trỏ null (cấp phát động), ptr to ptr
+     4. con trỏ hàm, mấy cái callback interrupt

@@ -275,6 +275,10 @@ _VD:_  STM32/32bit ---> 4byte
 ```c
     int *ptr = NULL;
 ```
+
+**ỨNG DỤNG:** 
+- Kiểm tra cấp phát bộ nhớ động có thành công hay không.
+- Đánh dấu điểm kết thúc của linked-list.
    
 ## 9. Pointer to Pointer(Con trỏ đến con trỏ)
 >Là con trỏ mà có thể trỏ đến địa chỉ của các con trỏ khác, có nhiều cấp độ con trỏ (con trỏ cấp 2, 3,...).
@@ -1384,19 +1388,33 @@ _VD2: Khởi tạo vùng nhớ quá lớn_
 <details>
   <summary><h3>Bài 10: Liked list</h3></summary> 
 
-- Liked list (danh sách liên kết): Là cấu trúc dữ liệu gồm chuổi các node(nút) liên kết với nhau, mỗi node gồm 2 thành phần: Data và con trỏ (*Next).
+_Thao tác để xóa 1 phần tử  trong mảng_
+- Ghi đè nó =0, hoặc kí tự 'NULL'.
+- Dịch trái để các phần tử nằm liền kề.
+- Realloc (giảm) để tối ưu bộ nhớ, không bị lãng phí.
 
-  _VD0:_ Cho mảng `int array[] = {2,7,4,5,3};`
+VD: int arr[5] -> kích thước 20 byte
+xóa 1 phần từ
+int arr[4] -> kích thước 20 byte ~> lãng phí 4 byte
+==> Realloc
+CT: ghi phần tử ở sau vào phần tử ở trước
+arr[i] = arr[i+1]
 
-- Dùng Malloc:
-  
-        // Malloc(); //Lưu trữ 5 phần tử * sizeof(int)= (20byte)
+==> Đối với arr[10000] mà để xóa 1 phần tử trong đó mà sử dụng cách cũ thì vô cùng phức tạp. Rất là lâu!!!
 
-        // Free():
+_Thao tác thêm 1 phần tử trong mảng_
+- Realloc (tăng) thêm 1  vùng nhớ 4 byte
+- Dịch phải     
+- Ghi dữ liệu với vào vùng nhớ 
+arr[i] = arr[i-1]
 
-        // Thêm - Thu hồi phần tử bằng cách thủ công, nhưng đối với array[10000] thì không thể làm thủ công được.
 
-  ➡️➡️➡️➡️➡️
+> Liked list (danh sách liên kết) là cấu trúc dữ liệu, gồm chuỗi các node (nút) liên kết với nhau, mỗi node chứa dữ liệu và con trỏ để liên kết đến node khác.
+
+- Thay vì sử dụng mảng lưu phần tử, thì các phần tử phải xếp liền nhau. Khi thực hiện thêm/xóa thì phải dịch mảng và ghi đè giá trị. Đối mảng có kích thước lớn như 10000 phần tử thì điều này sẽ rất khó khăn, làm chương trình chậm chạp. Còn ở danh sách liên kết thì các phần tử có thể nằm rải rác không cần liền kề, chúng được liên kết với nhau qua con trỏ Next(con trỏ node trước trỏ đến địa chỉ Node sau).
+--> Nên việc quản lý phần tử thêm/xóa rất dễ dàng và nhanh chóng.  
+
+
 - Liked list: Tạo 5 node
 
     <img src="https://github.com/hthuan02/C_Cpp_Advance/blob/main/C_Advance/Bai10_Linked-List/liked_list.png" alt="Memory Layout" width="800"/>
