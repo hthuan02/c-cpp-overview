@@ -1,55 +1,50 @@
 #include <stdio.h>
 
-int main()
+void hoan_vi(int *x, int *y)
 {
-    int arr[100], arr1[50], arr2[50];
-    int n, index, num1=0, num2=0;
+    int temp;
 
-
-    printf("Nhap so phan tu: "); scanf("%d", &n);
-
-    for (int i = 0; i < n; i++)
+    // tăng dần
+    if (*x > *y)
     {
-        scanf("%d", &arr[i]);
+        temp = *x;
+        *x = *y;
+        *y = temp;
     }
+    
+}
 
-    // in mảng
-    for (int i = 0; i < n; i++)
+int main ()
+{   
+    int arr[] = {11,43,13,75,35,34,65,22,356};
+
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    // Sắp xếp trực tiếp (interchange Sort)
+    for (int i = 0; i < n - 1; i++)
     {
-        printf("mang[%d] = %d\n", i, arr[i]);
-    }
-    printf("\n");
-
-    printf("Nhập vị trí muốn tách: "); scanf("%d", &index);
-
-    // Tách mảng
-    for (int i = 0; i < n; i++)
-    {
-        if (i <= index)
+        for (int j = i + 1; j < n; j++)
         {
-            arr1[num1++] = arr[i];
-        }
-
-        else
-        {
-            arr2[num2++] = arr[i];
+            hoan_vi(&arr[i], &arr[j]);
         }
         
     }
 
-    // in mảng con
-    for (int i = 0; i < num1; i++)
+    // In mảng đã sắp xếp
+    for (int i = 0; i < n ; i++)
     {
-        printf("mang1[%d] = %d\n", i, arr1[i]);
+        printf("%d", arr[i]);
+        if (i < n -1 )
+        {
+            printf(", ");
+        }
+        
     }
-    printf("\n");
+    
 
-    for (int i = 0; i < num2; i++)
-    {
-        printf("mang2[%d] = %d\n", i, arr2[i]);
-    }
+
     
-    
+
 
     return 0;
 }

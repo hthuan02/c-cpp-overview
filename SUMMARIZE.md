@@ -162,7 +162,7 @@ hiện tại đã học
 - tách mảng, gộp mảng
 - min/max mảng
 
-===> 1. học lại thao tác vs mảng
+===> 1. học lại thao tác vs mảng_ NGON LÀNH, chỉ còn các thuật toán sắp xếp nữa
      2. Thao tác với linked list
      3. con trỏ null (cấp phát động), ptr to ptr
      4. con trỏ hàm, mấy cái callback interrupt
