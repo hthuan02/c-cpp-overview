@@ -1,49 +1,32 @@
+// thêm/xóa/sửa mảng
 #include <stdio.h>
 
-void hoan_vi(int *x, int *y)
-{
-    int temp;
-
-    // tăng dần
-    if (*x > *y)
-    {
-        temp = *x;
-        *x = *y;
-        *y = temp;
-    }
-    
-}
+/** Thêm
+ * index --> dịch trái
+ * 
+ * for(i++)
+ *      arr[i] = arr[i+1];
+ * 
+ * - giảm kích thước mảng
+ */
 
 int main ()
-{   
-    int arr[] = {11,43,13,75,35,34,65,22,356};
+{
+    int arr[10] = {11,32,43,54,25,75,245,64};
+    int n = 10, index, var;
+    
+    printf("Nhập index: ");     scanf("%d", &index);
+    printf("Nhập variables: "); scanf("%d", &var);    
 
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    // Sắp xếp trực tiếp (interchange Sort)
-    for (int i = 0; i < n - 1; i++)
+    arr[index] = var;
+    for (int i = 0; i < n; i++)
     {
-        for (int j = i + 1; j < n; j++)
-        {
-            hoan_vi(&arr[i], &arr[j]);
-        }
-        
+        printf("%d ", arr[i]);
     }
-
-    // In mảng đã sắp xếp
-    for (int i = 0; i < n ; i++)
-    {
-        printf("%d", arr[i]);
-        if (i < n -1 )
-        {
-            printf(", ");
-        }
-        
-    }
+    
     
 
 
-    
 
 
     return 0;

@@ -1409,11 +1409,31 @@ _Thao tác thêm 1 phần tử trong mảng_
 arr[i] = arr[i-1]
 
 
-> Liked list (danh sách liên kết) là cấu trúc dữ liệu, gồm chuỗi các node (nút) liên kết với nhau, mỗi node chứa dữ liệu và con trỏ để liên kết đến node khác.
+> Linked list (danh sách liên kết) là cấu trúc dữ liệu, gồm chuỗi các node (nút) liên kết với nhau, mỗi node chứa dữ liệu và con trỏ để liên kết đến node khác.
 
-- Thay vì sử dụng mảng lưu phần tử, thì các phần tử phải xếp liền nhau. Khi thực hiện thêm/xóa thì phải dịch mảng và ghi đè giá trị. Đối mảng có kích thước lớn như 10000 phần tử thì điều này sẽ rất khó khăn, làm chương trình chậm chạp. Còn ở danh sách liên kết thì các phần tử có thể nằm rải rác không cần liền kề, chúng được liên kết với nhau qua con trỏ Next(con trỏ node trước trỏ đến địa chỉ Node sau).
+- Thay vì sử dụng mảng lưu phần tử, thì các phần tử phải xếp liền nhau. Khi thực hiện thêm/xóa thì phải dịch mảng và ghi đè giá trị. Đối mảng có kích thước lớn như 10000 phần tử thì điều này sẽ rất khó khăn, làm chương trình chậm chạp. Còn ở danh sách liên kết thì các phần tử có thể nằm rải rác, các vùng nhớ là độc lập không cần liền kề, chúng được liên kết với nhau qua con trỏ Next(con trỏ node trước trỏ đến địa chỉ Node sau).
 --> Nên việc quản lý phần tử thêm/xóa rất dễ dàng và nhanh chóng.  
 
+**NHƯỢC ĐIỂM:** 
+```c
+#ifndef LIST_H
+#define LIST_H
+
+typedef struct Node
+{
+   int data; 
+   Node *next;
+    
+} Node;
+
+// 1. Khai báo kiểu dữ liệu tên là Node sau struct, để biên dịch không lỗi
+// 2. Thành phần đầu tiên
+// 3. Thành phần thứ 2
+// 4. Đến dòng 9, xác định được Node là gì?
+
+#endif // LIST_H
+```
+- Linked List tốn nhiều byte hơn mảng, như struct trên tốn 16 bytes
 
 - Liked list: Tạo 5 node
 
