@@ -1510,7 +1510,7 @@ Node* create_node(int newData)
     node->next = NULL;
 
     // Kiểu của hàm là con trỏ node
-    // Nên return là 1 con trỏ
+    // Nên return là 1 địa chỉ
     return node;
 }
 
@@ -1530,6 +1530,13 @@ Cách 2 khác cách 1 3 điểm
 - Cách 2 lưu toàn bộ node ở heap (tiết kiệm stack trên RAM), cách 1 lưu ở stack trên RAM.
 
 ## Thao tác trong Linked-List
+(Linked-list không bị giới hạn thao tác như stack/queue)
+
+- B1: Con trỏ trỏ đến node đầu tiên.
+
+- B2: Duyệt qua từng node.
+
+- B3: Tự khởi tạo chỉ số index.
 
 - Liked list: Tạo 5 node
 

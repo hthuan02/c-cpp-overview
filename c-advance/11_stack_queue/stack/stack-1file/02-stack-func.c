@@ -45,9 +45,9 @@ int top(Stack stack)
     return stack.items[stack.top];
 }
 
-void display(Stack *stack)
+void display(Stack stack)
 {
-    if (isEmpty(*stack))
+    if (isEmpty(stack))
     {
         printf("Stack empty!\n");
     }
@@ -55,9 +55,9 @@ void display(Stack *stack)
     else
     {
         printf("Element of Stack is: ");
-        for (int i = 0; i <= stack->top; i++)
+        for (int i = 0; i <= stack.top; i++)
         {
-            printf("%d ", stack->items[i]);
+            printf("%d ", stack.items[i]);
         }
         printf("\n");       
     }
@@ -85,12 +85,12 @@ int main()
     push(&s1, 3);
     push(&s1, 4);
     push(&s1, 5);
-    display(&s1);
+    display(s1);
 
     printf("Top: %d\n", top(s1));
     pop(&s1);
 
-    display(&s1);
+    display(s1);
 
     stack_free(&s1);
 

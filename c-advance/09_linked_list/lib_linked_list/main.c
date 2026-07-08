@@ -1,15 +1,18 @@
 #include "list.h"
 
 int main ()
-{   
-    // Khởi tạo node 
-    Node *node1 = create_note(5); // 0x01 --> (data=5, ptr=NULL)
-    Node *node2 = create_note(6); // 0xa1     (data=6, ptr=NULL)
-    Node *node3 = create_note(7); // 0xe1     (data=7, ptr=NULL)
+{
+    Node *n1 = create_node(5);
+    Node *n2 = create_node(6);
+    Node *n3 = create_node(7);
 
-    // Liên kết node
-    node1->next = node2;
-    node2->next = node3;
+    n1->next =n2;
+    n2->next =n3;
+
+    push_front(&n1,100);
+    display(n1);
+
+
 
 
     return 0;

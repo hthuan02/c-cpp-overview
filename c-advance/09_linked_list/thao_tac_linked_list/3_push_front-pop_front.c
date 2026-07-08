@@ -16,7 +16,7 @@ Node *createNode(int data)
     return temp;
 }
 
-// Hàm thêm 1 node ở đầu List
+// Hàm thêm node ở đầu list
 void push_front(Node **array, int value)
 {
     Node *new_Node = createNode(value);
