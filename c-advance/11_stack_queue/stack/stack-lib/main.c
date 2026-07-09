@@ -13,11 +13,11 @@ int main ()
     push(&s1, 6);
     push(&s1, 7);
 
-    display(&s1);
+    display(s1);
     printf("Top: %d\n", top(s1));
     printf("Pop: %d\n", pop(&s1));
 
-    display(&s1);
+    display(s1);
 
     return 0;
 }

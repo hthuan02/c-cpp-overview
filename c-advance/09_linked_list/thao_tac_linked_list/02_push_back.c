@@ -41,6 +41,25 @@ Node *createNode(int data)
     return temp;
 }
 
+// Hàm thêm phần tử đầu list
+void push_front(Node **head, int value)
+{
+    Node *new_node = createNode(value);
+
+    // Kiểm tra địa chỉ của con trỏ cấp 1, danh sách có rỗng hay không
+    if (*head == NULL)
+    {
+        *head = new_node;
+    }
+    else
+    {
+        new_node->next = *head;
+        *head = new_node;
+    }
+    
+
+}
+
 // Hàm thêm 1 Node ở cuối  List
 void push_back(Node **head, int value)
 {
@@ -105,6 +124,7 @@ int main(int argc, char const *argv[])
     // Truyền vào node đầu tiên, vì nó chứa *head
     // Trỏ đến *head đại diện cả danh sách
     print_list(n1); 
+    push_front(&n1,2222);
     push_back(&n1,111);
 
     printf("\n");

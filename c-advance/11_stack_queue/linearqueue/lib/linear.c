@@ -61,18 +61,18 @@ int rear(Queue q)
     return q.items[q.rear];
 }
 
-void display(Queue *q)
+void display(Queue q)
 {
-    if (isEmpty(*q))
+    if (isEmpty(q))
     {
         printf("Queue empty\n");
     }
     else 
     {   
         printf("Element of queue is: ");
-        for (int i = q->front; i <= q->rear; i++)
+        for (int i = q.front; i <= q.rear; i++)
         {
-            printf("%d ", q->items[i]);
+            printf("%d ", q.items[i]);
         }
         printf("\n");
     }

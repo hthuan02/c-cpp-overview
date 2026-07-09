@@ -4,15 +4,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node
+typedef struct node_t
 {
     int data;
-    struct Node *next;
-}Node;
+    struct node_t *next;
+}node_t;
 
-Node* create_node(int new_data);
-void push_front(Node **head, int data);
-void push_back(Node **head, int data);
-void display(Node *head);
+/* Prototype Function */
+//  Các hàm thêm node
+node_t* create_node(int data);
+void push_front(node_t **head, int value);
+void push_back(node_t **head, int value);
+void insert(node_t **head, int value, int pos);
+
+// Các hàm đọc data node
+int size(node_t *head);
+int front_list(node_t *head);
+int back_list(node_t *head);
+
+// Hàm in node
+void display(node_t *head);
 
 #endif // __LIST_H

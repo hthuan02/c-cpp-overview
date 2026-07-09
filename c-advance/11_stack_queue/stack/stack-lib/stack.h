@@ -19,6 +19,6 @@ bool isFull(Stack stack);
 int push(Stack *stack, int data);
 int pop(Stack *stack);
 int top(Stack stack);
-void display(Stack *stack);
+void display(Stack stack);
 
 #endif // STACK_H

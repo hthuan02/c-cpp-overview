@@ -14,7 +14,7 @@ int main ()
 
     printf("Front: %d\n", front(q1));
     printf("Rear: %d\n", rear(q1));
-    display(&q1);
+    display(q1);
 
     printf("--------------------\n");
 
@@ -29,7 +29,7 @@ int main ()
     enqueue(&q1, 300);
     printf("Front: %d\n", front(q1));
     printf("Rear: %d\n", rear(q1));
-    display(&q1);
+    display(q1);
 
 
     queue_free(&q1);

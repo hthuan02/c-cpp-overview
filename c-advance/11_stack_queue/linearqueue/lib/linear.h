@@ -22,7 +22,7 @@ int enqueue(Queue *q, int data);
 int dequeue(Queue *q);
 int front(Queue q);
 int rear(Queue q);
-void display(Queue *q);
+void display(Queue q);
 void queue_free(Queue *q);
 
 #endif // __LINEAR_QUEUE_H

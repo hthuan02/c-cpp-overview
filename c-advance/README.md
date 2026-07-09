@@ -1548,21 +1548,30 @@ Cách 2 khác cách 1 3 điểm
  
     - Các hàm sử dụng của danh sách dữ liệu LIST:
 
-    ```
-        node *createNode(int value); //Tạo 1 node mới, có giá trị value và trả về con trỏ node
-        void push_back(node** array, int value); //Thêm 1 node mới có giá trị value vào cuối danh sách 
-        void push_front(node **array, int value); //Thêm 1 node có giá trị value đầu danh sách
+    ```c
+        // node *createNode(int value); //Tạo 1 node mới, có giá trị value và trả về con trỏ node
+        // void push_front(node **array, int value); //Thêm 1 node có giá trị value đầu danh sách
         void pop_back(node **array); //Xóa node cuối danh sách 
-        void pop_front(node **array); //Xóa node đầu danh sách 
-        int front(node *array); //Lấy giá trị của node đầu tiên
+        // void pop_front(node **array); //Xóa node đầu danh sách 
+        // X_ (learning...)int front(node *array); //Lấy giá trị của node đầu tiên
         int back(node *array); //Lấy giá trị của node cuối cùng
-        void insert(node **array, int value, int pos); //Thêm 1 node vào một vị trí bất kỳ(int pos là vị trí)
-        void delete_list(node **array, int pos); //Xóa 1 node ở vị trí bất kỳ
-        int size(node *array); //Lấy kích thước node của danh sách
+        // void insert(node **array, int value, int pos); //Thêm 1 node vào một vị trí bất kỳ(int pos là vị trí)
+        void delete_list(node **array, int pos); // Xóa 1 node ở vị trí bất kỳ
+        // int size(node *array); // Lấy kích thước node của danh sách
         int get(node *array, int pos); //Lấy giá trị của node(tại pos) của danh sách
 
         bool empty(node *array); // kiem tra list co rong hay khong
         //Không có hàm kiểm tra đầy, vì nó k quan tâm đến số lượng
+
+        /** LƯU Ý KHI DUYỆT LIST
+         * - Khi nào thêm/xóa/đọc/sửa node cuối thì duyệt: head-> next != NULL
+         * - Còn các trường hợp còn loại: head != NULL
+         *
+         * Sự khác nhau của 2 cái này là
+         * Node 1      Node 2      Node 3      Node 4           NULL
+         * - head != NULL       --> Ra khỏi ngoài list ở vị trí NULL, không thể đọc data
+         * - head->next != NULL --> List duyệt đến Node4, đọc được data cuối list    
+         */
     ```
     **Ứng dụng: Liked List giúp quản lý danh sách tốt hơn mảng.**
   
