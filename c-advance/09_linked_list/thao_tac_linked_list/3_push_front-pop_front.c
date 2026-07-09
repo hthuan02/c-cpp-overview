@@ -34,7 +34,7 @@ void pop_front(Node **array)
     else
     {
         Node *p = *array;
-        *array = p->next; // cap nhat lai *array, bo qua phan tu dau tien
+        p = p->next; // cap nhat lai *array, bo qua phan tu dau tien
         free(p);
     }
 }
@@ -61,7 +61,7 @@ int main(int argc, char const *argv[])
     n1->next = n2;
     n2->next = n3;
 
-        push_front(&n1, 10);
+    // push_front(&n1, 10);
     pop_front(&n1);
     printlist(n1);
 

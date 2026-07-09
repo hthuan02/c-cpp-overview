@@ -19,24 +19,43 @@ Node *createNode(int data)
 // Hàm xóa 1 node ở cuối List
 void pop_back(Node **array)
 {
-    Node *p = *array;
-    Node *temp; // tim duyet vi ke cuoi
-    int i = 0;
-
-    while (p->next != NULL)
+    if (*array == NULL)
     {
-        p = p->next;
-        i++;
+        return;
     }
-    free(p);
 
-    int j;
-    temp = *array;
-    for (j = 0; j < i - 1; j++)
+    else
     {
-        temp = temp->next;
+        // list có 1 node
+        if ((*array)->next == NULL)
+        {
+            free(*array);
+            *array = NULL;
+        }
+        
+        // list có nhiều hơn 1 node
+        else
+        {
+            Node *p = *array;
+            Node *temp = *array; // tim duyet vi ke cuoi
+            unsigned int count = 0;
+            
+            // Tìm kích thước list
+            while (p->next != NULL)
+            {
+                p = p->next;
+                count++;
+            }
+
+            // Xóa node cuối list
+            for (int i = 0; i < count - 1; i++)
+            {
+                temp = temp->next;
+            }
+            temp->next = NULL;
+            free(p);
+        }
     }
-    temp->next = NULL;
 }
 
 void printlist(Node *array)
@@ -61,7 +80,8 @@ int main(int argc, char const *argv[])
     n1->next = n2;
     n2->next = n3;
 
-    //printlist(n1);
+    printlist(n1);
+    printf("\n");
 
     pop_back(&n1);
     printlist(n1);
