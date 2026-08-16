@@ -34,7 +34,10 @@ void delete_list(Node **array, int pos)
     }
 
     int i = 0;
-    
+    // n1-n2-n3-n4- null
+    //           x
+    // node *temp 
+
     // Duyệt qua danh sánh đến trước vị trí cần xóa
     while (p != NULL && i < pos - 1)
     {
@@ -48,9 +51,14 @@ void delete_list(Node **array, int pos)
         return;
     }
 
-    Node *temp = p->next; // Lưu con trỏ cần xóa
-    p->next = temp->next; // Cập nhật lại
-    free(temp);
+    Node *to_delete = p->next; // Xác định vị trí cần xóa
+    p->next = to_delete->next; // Nối với node ở sau node bị xóa
+    free(to_delete);
+
+
+
+
+
 }
 
 void printlist(Node *array)

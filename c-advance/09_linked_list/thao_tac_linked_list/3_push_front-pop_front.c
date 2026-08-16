@@ -34,7 +34,7 @@ void pop_front(Node **array)
     else
     {
         Node *p = *array;
-        p = p->next; // cap nhat lai *array, bo qua phan tu dau tien
+        (*array) = (*array)->next; 
         free(p);
     }
 }

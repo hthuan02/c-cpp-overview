@@ -1382,7 +1382,6 @@ _VD2: Khởi tạo vùng nhớ quá lớn_
 ```c
     int *A = (int *)malloc(18446744073709551615);
 ```
-
 </details>
 
 <details>
@@ -1549,18 +1548,22 @@ Cách 2 khác cách 1 3 điểm
     - Các hàm sử dụng của danh sách dữ liệu LIST:
 
     ```c
-        // node *createNode(int value); //Tạo 1 node mới, có giá trị value và trả về con trỏ node
-        // void push_front(node **array, int value); //Thêm 1 node có giá trị value đầu danh sách
-        // void pop_back(node **array); //Xóa node cuối danh sách 
-        //void pop_front(node **array); //Xóa node đầu danh sách 
-        // int front(node *array); //Lấy giá trị của node đầu tiên
-        // int back(node *array); //Lấy giá trị của node cuối cùng
-        // void insert(node **array, int value, int pos); //Thêm 1 node vào một vị trí bất kỳ(int pos là vị trí)
-        void delete_list(node **array, int pos); // Xóa 1 node ở vị trí bất kỳ
-        // int size(node *array); // Lấy kích thước node của danh sách
-        // int get(node *array, int pos); //Lấy giá trị của node(tại pos) của danh sách
+        node *createNode(int value); //Tạo 1 node mới, có giá trị value và trả về con trỏ node
+        void push_front(node **array, int value); //Thêm 1 node có giá trị value đầu danh sách
+        void push_back(node **head, in new_data);
+        void insert(node **array, int value, int pos); //Thêm 1 node vào một vị trí bất kỳ(int pos là vị trí)
 
-        bool empty(node *array); // kiem tra list co rong hay khong
+        void pop_front(node **array); //Xóa node đầu danh sách 
+        void pop_back(node **array); //Xóa node cuối danh sách 
+        
+        int front(node *array); //Lấy giá trị của node đầu tiên
+        int back(node *array); //Lấy giá trị của node cuối cùng
+        int get(node *array, int pos); //Lấy giá trị của node(tại pos) của danh sách
+        int size(node *array); // Lấy kích thước node của danh sách
+
+        // void delete_list(node **array, int pos); // Xóa 1 node ở vị trí bất kỳ
+        
+        // bool empty(node *array); // kiem tra list co rong hay khong
         //Không có hàm kiểm tra đầy, vì nó k quan tâm đến số lượng
 
         /** LƯU Ý KHI DUYỆT LIST
@@ -1575,6 +1578,47 @@ Cách 2 khác cách 1 3 điểm
     ```
     **Ứng dụng: Liked List giúp quản lý danh sách tốt hơn mảng.**
   
+#### LƯU Ý CỰC QUAN TRỌNG KHI DUYỆT LIST
+
+```c
+// n1->n2->n3
+int size(node_t *head)
+{
+    node_t *temp = head;
+    int count2=0;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+        count2++;
+    }
+    
+    return count2;
+}
+
+// size: 2 node
+```
+
+```c
+// n1->n2->n3
+int size(node_t *head)
+{
+    node_t *temp = head;
+    int count2=0;
+    while (temp != NULL)
+    {
+        temp = temp->next;
+        count2++;
+    }
+    
+    return count2;
+}
+// size: 3 node
+```
+Vấn đề ở đây là, khi duyệt list
+- `while(*head != NULL)`, Sau khi thoát vòng lặp con trỏ == NULL, vì nó đi qua hết all list (size = max).
+- `while((*head)->next != NULL )`. Sau khi thoát vòng lặp con trỏ = node cuối (size = max -1)
+
+
 </details>
 
 <details>
@@ -1599,6 +1643,8 @@ int top = -1;       // tạo giá trị ban đầu của đỉnh stack
 // `items[]` có thể tạo con trỏ `*items`
 // Cần cấp phát động `malloc`, sau đó `free` để thu hồi
 ```
+
+
 
 ## II. Queue (FIFO)
 > Queue là cấu trúc dữ liệu hàng đợi, hoạt động theo nguyên tắc phần tử thêm vào trước thì lấy ra trước (First In-First Out)

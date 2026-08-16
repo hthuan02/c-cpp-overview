@@ -72,8 +72,12 @@ void push_front(Node **head, int value)
     {
         *head = new_node;
     }
+
+    // Khi list k rỗng
     else
     {
+        // cập nhật lại *next của node mới 
+        // cập nhật lại *head của list, bắt đầu từ new_node
         new_node->next = *head;
         *head = new_node;
     }

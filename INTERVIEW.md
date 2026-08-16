@@ -17,7 +17,6 @@ Others: Git, debug register
 
 # (FAIL X-X) PLAN A - intern (khó xảy ra)
 (Hoàn cảnh hiện tại 9.6.26)
-
 - Ôn CV
 - Apply intern hơn 5 cty rồi
 - FPT Software

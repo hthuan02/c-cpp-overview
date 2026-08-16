@@ -85,6 +85,24 @@ ptr hoặc &x
 int arr[] = {0x01, 0x02, 0x03, 0x04};
 int *ptr = arr; // arr hoặc &arr[0]
 
+--> truy cập địa chỉ-%p
+ptr = &arr[0]
+(ptr+1) = &arr[1]
+(ptr+2) = &arr[2]
+
+--> truy cập giá trị-%d
+*ptr = arr[0]
+*(ptr+1) = arr[1]
+*(ptr+2) = arr[2]
+
+arr[2] = 2[arr] = *(arr+2)
+
+2 cái này khác nhau gì?
+arr+1: arr = arr[0], khi tăng 1 thì địa chỉ tăng lên theo data_type 1 biến
+&arr+1: &arr, là lấy địa chỉ của cả mảng --> khi + lên là tăng 16byte
+VD: int arr[] = {0x00,0x01,0x02,0x03}; // 16byte
+
+
 --> truy cập giá trị %d
 - phần tử thứ nhất: *ptr  hoặc arr[0]
 - phần tử thứ 2: *(ptr+1) hoặc arr[1]
