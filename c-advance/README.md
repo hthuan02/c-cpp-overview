@@ -1415,7 +1415,7 @@ arr[i] = arr[i-1]
 
 **NHƯỢC ĐIỂM:** linked-list tốn nhiều byte hơn mảng, như struct trên tốn 16 byte
 
-#### Cách 1: Khởi tạo thông tin & dữ liệ là các biến cục bộ lưu `Stack`. Khi sử dụng thì gọi trực tiếp ra.
+#### Cách 1: Khởi tạo thông tin & dữ liệu là các biến cục bộ lưu `Stack`. Khi sử dụng thì gọi trực tiếp ra.
 
 ```c
 typedef struct Node

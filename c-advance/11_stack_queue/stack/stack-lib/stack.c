@@ -1,8 +1,16 @@
 #include "stack.h"
 
-void stack_init(Stack *stack)
+void stack_init(Stack *stack, int new_data)
 {
-    stack->size = MAX_STACK;
+    stack->items = (int*)malloc(new_data * sizeof(int));
+    if (stack->items == NULL)
+    {
+        stack->size = 0;
+        stack->top = -1;
+        return;
+    }
+
+    stack->size = new_data;
     stack->top  = -1;
 }
 
@@ -16,11 +24,13 @@ bool isFull(Stack stack)
     return stack.top == stack.size - 1;
 }
 
+
 int push(Stack *stack, int data)
 {
     if (isFull(*stack))
     {
         printf("Stack full.\n");
+        return -1;
     }
 
     else 
@@ -38,6 +48,7 @@ int pop(Stack *stack)
     if (isEmpty(*stack))
     {
         printf("Stack empty.\n");
+        return -1;
     }
 
     else
@@ -55,6 +66,7 @@ int top(Stack stack)
     if (isEmpty(stack))
     {
         printf("Stack empty.\n");
+        return -1;
     }
 
     else

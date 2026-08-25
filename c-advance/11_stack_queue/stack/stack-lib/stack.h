@@ -4,16 +4,14 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define MAX_STACK 5
-
 typedef struct 
 {
-    int items[MAX_STACK];
+    int *items;
     int size;
     int top;
 }Stack;
 
-void stack_init(Stack *stack);
+void stack_init(Stack *stack, int new_data);
 bool isEmpty(Stack stack);
 bool isFull(Stack stack);
 int push(Stack *stack, int data);
