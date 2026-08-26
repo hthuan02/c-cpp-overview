@@ -6,9 +6,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/**
+ * - size: unsigned-int
+ * - còn lại: signed-int
+ */
 typedef struct Queue_t
 {
-    uint32_t *items;
+    int32_t *items;
     int32_t front;
     int32_t rear;
     uint32_t size;

@@ -3,8 +3,10 @@
 /** 
  *  DEBUG
  *  - Không đặt tên hàm trùng member struct
+ *  - Không print được -> Khởi tạo malloc fail or print có vấn đề or isEmpty/isFull fault
  *  - Kiểm tra dấu `=` có bị thiếu?
  *  - Kiểm tra thiếu `return`?
+ *  - Kiểm tra data_type đồng nhất
  */
 
 /* Hàm khởi tạo queue, thêm, xóa queue */

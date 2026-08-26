@@ -1,28 +1,37 @@
-#ifndef __LINEAR_QUEUE_H__
-#define __LINEAR_QUEUE_H__
+#ifndef __LINEAR_H
+#define __LINEAR_H
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define MAX_QUEUE 5
-
-typedef struct
+typedef struct Linear_t
 {
-    int *items;
-    int size;
-    int front;
-    int rear;
-}Queue;
+    int32_t *items;
+    int32_t front;
+    int32_t rear;
+    uint32_t size;
+}Linear_t;
 
-void queue_init(Queue *q);
-bool isEmpty(Queue q);
-bool isFull(Queue q);
-int enqueue(Queue *q, int data);
-int dequeue(Queue *q);
-int front(Queue q);
-int rear(Queue q);
-void display(Queue q);
-void queue_free(Queue *q);
+typedef enum
+{
+    LINEAR_OK,
+    LINEAR_EMPTY,
+    LINEAR_FULL,
+    LINEAR_MALLOC_FAIL
+}LinearQueueStatus_t;
 
-#endif // __LINEAR_QUEUE_H
+bool isEmpty(Linear_t q);
+bool isFull(Linear_t q);
+
+LinearQueueStatus_t create_queue(Linear_t *q, uint32_t data);
+LinearQueueStatus_t enqueue(Linear_t *q, int32_t data);
+LinearQueueStatus_t dequeue(Linear_t *q, int32_t *data);
+LinearQueueStatus_t get_front(Linear_t q, int32_t *data);
+LinearQueueStatus_t get_rear(Linear_t q, int32_t *data);
+
+void print_queue(Linear_t q);
+void free_queue(Linear_t *q);
+
+#endif // __LINEAR_H

@@ -2,8 +2,11 @@
 
 int main ()
 {
-    Stack s1;
-    stack_init(&s1);
+    Stack_t s1;
+    int32_t val_top,
+            val_pop;
+
+    stack_init(&s1, 5);
 
     push(&s1, 1);
     push(&s1, 2);
@@ -13,11 +16,19 @@ int main ()
     push(&s1, 6);
     push(&s1, 7);
 
-    display(s1);
-    printf("Top: %d\n", top(s1));
-    printf("Pop: %d\n", pop(&s1));
+    print_stack(s1);
+    
+    
+    if (pop(&s1, &val_pop) == STACK_OK)
+    {
+        printf("Pop: %d\n", val_pop);
+    }
 
-    display(s1);
+    print_stack(s1);
 
+    if (top(s1, &val_top) == STACK_OK)
+    {
+        printf("Top: %d\n", val_top);
+    }
     return 0;
 }

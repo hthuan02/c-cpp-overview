@@ -2,36 +2,37 @@
 
 int main ()
 {
-    Queue q1;
-    queue_init(&q1);
+    Linear_t q1;
+    int32_t val_dequeue,
+            val_front,
+            val_rear;
+    create_queue(&q1, 5);
 
-    enqueue(&q1,1);
-    enqueue(&q1,2);
-    enqueue(&q1,3);
-    enqueue(&q1,4);
-    enqueue(&q1,5);
-    enqueue(&q1,6);
+    enqueue(&q1, 1);
+    enqueue(&q1, 2);
+    enqueue(&q1, 3);
+    enqueue(&q1, 4);
+    enqueue(&q1, 5);
+    enqueue(&q1, 6);
 
-    printf("Front: %d\n", front(q1));
-    printf("Rear: %d\n", rear(q1));
-    display(q1);
+    print_queue(q1);
+    if (dequeue(&q1, &val_dequeue) == LINEAR_OK)
+    {
+        printf("Dequeue: %d\n", val_dequeue);
+    }
+    
+    print_queue(q1);
+    if (get_front(q1, &val_front) == LINEAR_OK)
+    {
+        printf("Front: %d\n", val_front);
+    }
+    
+    if (get_rear(q1, &val_rear) == LINEAR_OK)
+    {
+        printf("Rear: %d\n", val_rear);
+    }
 
-    printf("--------------------\n");
-
-    dequeue (&q1);
-    dequeue (&q1);
-    dequeue (&q1);
-    dequeue (&q1);
-    dequeue (&q1);
-
-    enqueue(&q1, 100);
-    enqueue(&q1, 200);
-    enqueue(&q1, 300);
-    printf("Front: %d\n", front(q1));
-    printf("Rear: %d\n", rear(q1));
-    display(q1);
-
-
-    queue_free(&q1);
+    free_queue(&q1);
+    
     return 0;
 }
