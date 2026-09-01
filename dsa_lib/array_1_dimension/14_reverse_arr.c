@@ -1,12 +1,18 @@
 #include <stdio.h>
+
 int main ()
 {
-    int arr[] = {1,22,1,34,23,22,7,5,1};
+    int arr[] = {11,24,21,53,75,35,45,1};
     int n = sizeof(arr) / sizeof(arr[0]);
-    
+
+    // reverse
+    // tạo 2 biến
+    // left = đầu arr, right = cuối arr
+    // duyệt while(left < right)
+    //              --> hoán vị (không cần arr[left] < hoặc > arr[right])  left ++; right --
+
     int left = 0;
     int right = n -1;
-
     while (left < right)
     {
         int temp = arr[left];
@@ -15,7 +21,6 @@ int main ()
 
         left++;
         right--;
-        
     }
 
     for (int i = 0; i < n; i++)
@@ -24,6 +29,7 @@ int main ()
     }
     
     
+
 
     return 0;
 }

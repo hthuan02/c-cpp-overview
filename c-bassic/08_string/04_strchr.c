@@ -9,7 +9,7 @@ int main ()
 
     if (s != NULL)
     {
-        printf("Tìm thấy kí tự: %s\n", s);
+        printf("Tìm thấy kí tự: %c\n", val);
         printf("Vị trí: %d\n", s-s1);
     }
     else printf("Không tìm thấy kí tự!\n");
