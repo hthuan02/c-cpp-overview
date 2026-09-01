@@ -1,21 +1,25 @@
-# 1. Quá trình compiler?
+# SUMMARIZE C PROGRAMING
+
+---
+
+## 1. Quá trình compiler?
 Gồm 4 quá trình:
 - Tiền xử lý
 - Biên dịch
 - Dịch hợp ngữ
 - Liên kết
 
-# 2. Datatype, format, variable, constant?
+## 2. Datatype, format, variable, constant?
 
-# 3. Macro? So sánh macro & const?
+## 3. Macro? So sánh macro & const?
 
-# 4. Local/global variables?
+## 4. Local/global variables?
 
-# 5. Pass by value, pass by referencee?
+## 5. Pass by value, pass by referencee?
 
-# 6. Function? So sánh macro & func?
+## 6. Function? So sánh macro & func?
 
-# 7. String?
+## 7. String?
 - strlen
 - strcmp(s1,s2) // ASCII
 - strcspn
@@ -24,7 +28,7 @@ Gồm 4 quá trình:
 - strchr
 - strtok
 
-# 8. Array?
+## 8. Array?
 - độ dài mảng: n = arr/arr[0]
 - tách mảng
 - gộp mảng
@@ -32,14 +36,14 @@ Gồm 4 quá trình:
 - sắp xếp mảng tăng dần/giảm dần
 - tìm MAX/MIX mảng
 
-# 9. Struct, union? Tính kích thước? So sánh struct & union?
+## 9. Struct, union? Tính kích thước? So sánh struct & union?
 struct:  mỗi biến là vùng nhớ khác nhau
 -> kích thước: all member + padding
 
 union: chung vùng nhớ
 -> kích thước: member MAX + padding
 
-# 10. Stack? linear/circular queue?
+## 10. Stack? linear/circular queue?
 STACK: Ngăn xếp (LIFO)
 -  push: thêm phần tử vào đỉnh stack (top++)
 -  pop: lấy phần tử từ đính stack (top--)
@@ -53,7 +57,7 @@ Nếu là *items: phải cấp phát động malloc
 - size: kích thước tối đa của stack
 - top: giá trị tại đỉnh stack (== -1, giá trị ban đầu)
 
-# 11. So sánh linear queue & circular queue
+## 11. So sánh linear queue & circular queue
 
 Giống: Đều là cấu trúc dữ liệu hàng đợi. Hoạt động theo cách phần tử được thêm vào trước thì lấy ra trước (first in-first out).
 Đều có enqueue, dequeue và 2 giá trị quan trọng front, rear.
@@ -64,7 +68,7 @@ VD: Cho mảng 5 phần tử, enqueue cả 5 phần tử, sau đó dequeue 2 ph�
 
 - Circular: Giá trị front, rear có thể xoay vòng dựa vào dấu `%` (front = (front + 1) % size, rear = (rear + 1) % size). Vì vậy khắc phục đc tình trạng lãng phí ô nhớ của linear. Có thể enqueue phần tử vào 2 ô trống ở đầu được. (Đến khi front == rear thì front = -1 rỗng dừng)
 
-# Pointer?
+## Pointer?
 ptr?
 truy cập giá trị? địa chỉ?
 --> dereference
