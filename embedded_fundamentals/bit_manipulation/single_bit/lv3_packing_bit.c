@@ -1,3 +1,10 @@
+/* VD: Hệ thống embedded(Robot) mỗi chuyển động cần rất nhiều tín hiệu từ nhiều cảm biến hoặc động cơ
+ * Nhưng mỗi tín hiệu truyền/nhận chỉ 1 bit, mà nó truyền/nhận 1 lần là 8 bit/1 byte
+ * ---> Như vậy sẽ tốn bộ nhớ, nên packing dữ liệu giúp mình tôi ưu bộ nhớ, tăng hiệu suất
+ * 
+ * Còn unpacking dữ liệu là để lấy dữ liệu con ra dễ debug, dễ đọc, dễ maintain
+ **/
+
 #include <stdio.h>
 #include <stdint.h>
 
