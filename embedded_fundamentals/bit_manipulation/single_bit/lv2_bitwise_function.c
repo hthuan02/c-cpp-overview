@@ -1,46 +1,55 @@
 #include <stdio.h>
 #include <stdint.h>
 
-void print_bit(uint32_t bit)
+void print_binary(uint8_t reg)
 {
-    for(int i = 31; i >= 0 ; i--)
+    printf("0b");
+    for (int i = 7; i >= 0; i--)
     {
-        uint32_t val_status_bit = ((1UL << i) & bit) != 0;
-        printf("%u", val_status_bit);
+        uint8_t val_reg = (reg >> i) & 1U;
+        printf("%u", val_reg);
     }
-    printf("\n");
     
+    printf("\n");
 }
 
-void set_bit(uint32_t *bit, uint8_t pos)
+uint8_t set_bit(uint8_t *reg, uint8_t pos)
 {
-    *bit |= (1UL << pos);
+    return *reg |= (1U << pos);
 }
 
-void reset_bit(uint32_t *bit, uint8_t pos)
+uint8_t reset_bit(uint8_t *reg, uint8_t pos)
 {
-    *bit &= ~(1UL << pos);
+    return *reg &= ~(1U << pos);
 }
 
-void toggle_bit(uint32_t *bit, uint8_t pos)
+uint8_t toggle_bit(uint8_t *reg, uint8_t pos)
 {
-    *bit ^= (1UL << pos);
+    return *reg ^= (1U << pos);
+}
+
+uint8_t read_bit(uint8_t *reg, uint8_t pos)
+{
+    return *reg = ((1U << pos)& *reg) != 0;
 }
 
 int main ()
 {
-    uint32_t val_bit = 0x1e;  
-    uint8_t val_pos;  
-    print_bit(val_bit);
+    uint8_t reg = 0x1e;
 
-    set_bit(&val_bit, 3);
-    print_bit(val_bit);
+    print_binary(reg);
 
-    reset_bit(&val_bit,5);
-    print_bit(val_bit);
+    set_bit(&reg, 0);
+    print_binary(reg);
 
-    toggle_bit(&val_bit,4);
-    print_bit(val_bit);
+    reset_bit(&reg,2);
+    print_binary(reg);
+
+    toggle_bit(&reg, 4);
+    print_binary(reg);
+
+    uint8_t val_check_bit = read_bit(&reg, 2);
+    printf("Check bit: %u\n", val_check_bit);
 
     return 0;
 }
