@@ -14,19 +14,20 @@ Gồm 4 bước chính:
     - Compiler
     - Asembler
     - Linker
-### 1. Tiền xử lý
-(chuyển file.c, file.h thành file.i)
+
+### 1. Preprocessor
+(Chuyển file.c, file.h thành file.i)
 
 > Copy toàn bộ mã nguồn vào file main.i
 >
-> Xóa cmt
+> Xóa comment.
 >
 > Các chỉ thị tiền xử lý #define, #ifndef, #endif,.. thì bị thay thế còn lại giữ nguyên.
 
 `gcc -E main.c -o main`
 
 ### 2. Complier
-(chuyển file.i thành file.s)
+(Chuyển file.i thành file.s)
 
 > Tạo ra file hợp ngữ
 >
@@ -91,8 +92,12 @@ Gồm 4 bước chính:
 <details>
   <summary><h3>Bài 3: Pointer</h3></summary>
 
-- Con trỏ là 1 biến, thay vì lưu giá trị thì dùng để lưu địa chỉ của 1 đối tượng(biến, hàm, mảng,...). 
-- Con trỏ không lưu giá trị mà nó lưu địa chỉ bộ nhớ nơi biến khác đang sử dụng.
+### Con trỏ là gì? Con trỏ được sử dụng như thế nào? 
+Con trỏ là một biến đặc biệt để lưu địa chỉ của một đối tượng (biến, hàm, mảng, struct,...). Con trỏ được sử dụng để truy cập thao tác thay đổi dữ liệu thông qua địa chỉ ô nhớ.
+- Truyền địa chỉ vào hàm để thay đổi giá trị biến ngoài hàm (pass by reference - truyền tham chiếu)
+- DSA: string/array/linked list/stack/queue.
+- Cấp phát động malloc/calloc/realloc và free.
+- Embedded: Dùng để truy cập thanh ghi phần cứng thông qua Memory-Mapped I/O.
 
 ## 1. Kích thước của Con trỏ
 - Phụ thuộc vào kiến trúc của máy tinh và trình biên dịch(IDE).
@@ -218,7 +223,7 @@ _VD:_  STM32/32bit ---> 4byte
         printf("%d\n", *ptr_const); //ptr_const = 10
     
         // *ptr_const = 5;
-        // Dong nay sai, chi co the thay doi gia tri tai a.
+        // Dong nay sai, chi co the thay doi gia tri tai a.     
         // VD: a = 15 -> *ptr_const =
 
         a = 15;
@@ -630,9 +635,9 @@ _VD1:_
 ```
 ## Data alignment & padding
 
-- Data alignment: Là việc sắp xếp dữ liệu tại địa chỉ bộ nhớ phù hợp với yêu cầu của CPU, đảm bảo nằm ở vị trí biên (2 byte, 4 byte, 8 byte, 16 byte,...) --> Tăng tốc độ truy cập & xử lý dữ liệu
+- Data alignment: Căn chỉnh sắp xếp địa chỉ bộ nhớ phù hợp với yêu cầu của CPU; Mục đích là tăng hiệu năng truy cập bộ nhớ; CPU thường đọc dữ liệu hiệu quả nhất tại các địa chỉ chia hết (2byte/4byte/8byte/16...)
 
-- Padding(đệm vào): Là các byte trống được compiler chèn vị trí giữa hoặc cuối của struct, để đảm bảo alignment dữ liệu. 
+- Padding: Là các byte trống được compiler chèn vào vị trí giữa hoặc cuối của struct, để đảm bảo dữ liệu được căn chỉnh đúng trong bộ nhớ. 
   
 **_VD2: Tìm kích thước struct VD1_**
 
@@ -651,25 +656,23 @@ _VD1:_
 
 ```c
       uint8_t var1[9]; //1byte 
-      uint64_t var2[3]; //8byte
+      uint64_t var2[3]; //8byte 
       uint16_t var3[10]; //2byte
       uint32_t var4[2]; //4byte
-
-
-    //  1*8
-    //  1 + 7pad
-    //  8*3
-    //  2*4
-    //  2*4
-    //  2*2 + 4
-    //  4*1 + 4pad
-    // tổng: 72 bytes(11 padding) 
+    // 8
+    // 1 + 7pad
+    // 3*8
+    // 2*4 + 2*4
+    // 2*2 + 4
+    // 4 + 4pad 
+    // total: 72 (11pad)
 ```
 
 ## Phân mảnh bộ nhớ
 - Từ khóa `#pragma pack(n)` dùng để chống phân mảnh bộ nhớ. Ép complier không được padding phần từ của struct.
 - Nhược điểm: hạn chế tốc độ truy cập bộ nhớ, nên thông thường tạo struct thì nên tạo biến kích thước cao -> thấp.
 - Ứng dụng: Khôi phục dữ liệu, truyền data MCU A -> MCU B (MCU B muốn lấy lại toàn bộ data từ MCU A), để không bị lệch data rơi vào padding
+--> Giảm hiệu năng truy cập, không nên dùng với struct thông thường.
 
 ```c
 #include <stdio.h>
@@ -714,7 +717,21 @@ int main ()
 
 > Là kiểu dữ liệu người dùng tự định nghĩa, các member sử dụng chung vùng nhớ
 >
-> Tại 1 thời điểm union chỉ lưu giá trị 1 member, kích thước union = kích thước của member lớn nhất + padding do compiler thêm vào để đảm bảo alignment(nếu có).
+> Tại 1 thời điểm union chỉ lưu 1 giá trị của biến member.
+>
+> Kích thước union = kích thước của member lớn nhất + padding do compiler thêm vào để đảm bảo alignment(nếu có).
+
+```c
+
+typedef union
+{
+    int a[11];  // 4 -> 4*11 = 44+4pad
+    int b;      // 4
+    char *c;    // 8
+}Union_t;
+
+// total: 48 byte(4pad)
+```
 
 #### VD1: Tính kích thước của Union
 ```c    
@@ -734,14 +751,14 @@ int main()
     printf("Size = %d\n", sizeof(frame)); //Kích thước lớn nhất 4byte
     frame data;
 
-    data.var1 = 5;
-    data.var2 = 6;
-    data.var3 = 7;
-    //Vì dữ liệu kiểu Union-> SD chung vùng nhớ
-    //Lấy data sau cùng
-    printf("Var1 = %d\n", data.var1);   //7
-    printf("Var2 = %d\n", data.var2);   //7
-    printf("Var3 = %d\n", data.var3);   //7
+    data.var1 = 5; // 1 byte 
+    data.var2 = 6; // 4 byte
+    data.var3 = 7; // 2 byte
+    // Union dùng chung vùng nhớ
+    // Khi ghi vùng nhớ mới, thì các byte vùng nhớ chung bị ghi đè
+    printf("Var1 = %d\n", data.var1);   //  0x05??????
+    printf("Var2 = %d\n", data.var2);   //  0x00000006
+    printf("Var3 = %d\n", data.var3);   //  0x0007
     return 0;
 }
 ```
@@ -767,41 +784,6 @@ int main()
     /* 0x78: LSB(Least Significant Bit): Trọng số thấp nhất
      * 0x12: MSB(Most Significant Bit): Trọng số cao nhất
      * 0x12 0x34 0x56 0x78
-     * --> Ta có: 4 cặp bit tương ứng với kiểu dữ liệu lớn nhất là int 4 byte
-     * data.byte = 0x78
-     * data.value = 0x12345678
-     * 
-     */
-
-    printf("value = 0x%X\n", data.value);   
-    printf("byte  = 0x%X\n", data.byte);
-
-
-    return 0;
-}
-```
-
-#### VD2.1: Truy xuất giá trị trong Union
-
-```c
-#include <stdio.h>
-#include <stdint.h>
-
-typedef union
-{
-    uint64_t value; // 8 byte
-    uint8_t byte;   // 1 byte
-} data_t;
-
-int main()
-{
-    data_t data;
-
-    data.value = 0x12345678;
-
-    /* 0x78: LSB(Least Significant Bit): Trọng số thấp nhất
-     * 0x12: MSB(Most Significant Bit): Trọng số cao nhất
-     * 0x00 0x00 0x00 x00 0x12 0x34 0x56 0x78
      * --> Ta có: 4 cặp bit tương ứng với kiểu dữ liệu lớn nhất là int 4 byte
      * data.byte = 0x78
      * data.value = 0x12345678
@@ -876,8 +858,11 @@ int main ()
 ```
 ## 4. Bit field
 > Bit field được sử dụng trong struct/union, dùng để quy định số bit cụ thể cho từng thành viên thay vì sử dụng toàn bộ kích thước của kiểu dữ liệu. Nhằm tối ưu bộ nhớ & tăng hiệu suất chương trình.
+>
+> Không thể dùng toán tử & với các member
 
-- Bit-field struct thì mỗi field chiếm một số bit riêng nên không ghi đè lên nhau. Nếu các field có cùng kiểu dữ liệu thì compiler sẽ tối ưu bằng cách đóng gói vào chung 1 vùng nhớ.
+- Bit-field trong struct thì mỗi field có vùng nhớ riêng, không ghi đè lên nhau.
+_Nếu các field có cùng kiểu dữ liệu và nằm liền kề thì được compiler sẽ tối ưu bằng cách đóng gói vào chung 1 vùng nhớ (storage unit)._
 
 - Bit-field trong union dùng chung một vùng nhớ, các field có thể ghi đè dữ liệu lên nhau.
 #### Bit-field với struct
@@ -885,22 +870,26 @@ int main ()
 ```c
 typedef struct
 {
-    unsigned int enable : 1;  // 1 bit
-    unsigned int mode   : 2;  // 2 bit
+    unsigned int enable : 1;  // 1 bit 
+    unsigned int mode   : 2;  // 2 bit 
     unsigned int speed  : 3;  // 3 bit
 }status_t;
 
 // bit-field cùng kiểu -> compiler gom vào `unsigned int`.
-// 32 bit (26 padd)
+// 32 bit (26 unused bits)
+// trong bit-field gọi là bit chưa sử dụng, không có gọi padding vì nó vẫn nằm trong vùng nhớ (storage unit)
 ```
 
 ```c
 typedef struct
 {
-    uint8_t  a : 3; 
-    uint16_t b : 5;  
-    uint32_t c : 10; 
+    uint8_t  a : 3;     // 1byte (3bit)
+    uint16_t b : 5;     // 2byte (8bit)
+    uint16_t e : 3;
+    uint32_t c : 10;    // 4 byte (10bit)
 }test_t;
+
+// tổng kích thước struct
 
 // bit-field khác kiểu dữ liệu
 // Tổng kích thước compiler cấp phát là 64 bits, nhưng compiler chỉ dùng 18 bits. Còn  lại là bit trống

@@ -17,7 +17,7 @@ int main ()
 
     printf("\n");
     printf("%p\n", &arr[0]);
-    printf("%p\n", &arr[1]);
+    printf("%p\n", &arr[1]); 
     printf("%p\n", &arr[2]);
 
 
@@ -39,6 +39,7 @@ int main ()
     // printf("%p\n", &arr);     // 0x1000
     // printf("%p\n", &arr + 1); // 0x1014
 
+    printf("\n");
     printf("%p\n", &arr[0]);
     printf("%p\n", arr); 
     printf("%p\n", &arr);

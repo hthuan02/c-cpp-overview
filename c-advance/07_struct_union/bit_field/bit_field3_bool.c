@@ -9,8 +9,6 @@ typedef union
     bool speed:1;
 } status_t;
 
-// bit-field cùng kiểu -> compiler gom vào `unsigned int`.
-// 32 bit (26 padd)
 
 int main ()
 {

@@ -28,9 +28,9 @@ uint8_t toggle_bit(uint8_t *reg, uint8_t pos)
     return *reg ^= (1U << pos);
 }
 
-uint8_t read_bit(uint8_t *reg, uint8_t pos)
+uint8_t read_bit(uint8_t reg, uint8_t pos)
 {
-    return *reg = ((1U << pos)& *reg) != 0;
+    return reg = ((1U << pos)& reg) != 0;
 }
 
 int main ()
@@ -48,7 +48,7 @@ int main ()
     toggle_bit(&reg, 4);
     print_binary(reg);
 
-    uint8_t val_check_bit = read_bit(&reg, 2);
+    uint8_t val_check_bit = read_bit(reg, 2);
     printf("Check bit: %u\n", val_check_bit);
 
     return 0;

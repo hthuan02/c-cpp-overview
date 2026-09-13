@@ -1,17 +1,16 @@
 #include <stdio.h>
 #include <stdint.h>
 
-typedef union Ex1
+typedef union
 {
-    uint8_t var1;  // 1 byte + 3padding
-    uint32_t var2; // 4 byte
-    uint16_t var3; // 2 byte + 2padding
-} frame;
+    int a[11];  // 4 -> 4*11 = 44+4pad
+    int b;      // 4
+    char *c;    // 8
+}Union_t;
 
-int main(int argc, char const *argv[])
+int main()
 {
-    printf(" Size of data: %d\n");
-    frame data;
+    Union_t frame;
 
     printf("Size = %d\n", sizeof(frame));
 
