@@ -32,4 +32,13 @@
     // giá trị của char là 44
 ``` 
 
+# Version 1.0
+## Cruise Control: kiểm soát giới hạn tốc độ lái
+## giới hạn tốc độ tùy theo tuyến đường
+## Tạo log cho mỗi data
 
+## VD: tuyến đường gồ gề 40km/h - ghi lại thời gian real-time
+#      tuyến đường bình thường 60km/h - realt-ime
+
+# Version 2.0
+# GGMAP-Cruise Control

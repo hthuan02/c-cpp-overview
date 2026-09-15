@@ -906,7 +906,7 @@ typedef union
 }test_t;
 
 // bit-field khác kiểu
-// 4 byte (14 padd)
+// 4 byte
 ```
 
 #### Bit-field Struct lồng trong Union

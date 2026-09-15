@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-typedef struct
+typedef union
 {
     uint8_t  a : 3;     // 1byte (3bit)
     uint16_t b : 5;     // 2byte (8bit)
