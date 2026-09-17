@@ -202,6 +202,8 @@ int arr[5];
 int *p = arr;// Con trỏ trỏ đến mảng (phần tử đầu mảng).
 ```
 
+#### Level 1: Lưu địa chỉ của hàm
+
 _VD0:_
 ```c
     ỉnt sum(int a, int b)
@@ -216,11 +218,11 @@ _VD0:_
 
         // Trỏ đếm hàm
         fp = sum;   // C1
-        fp = &sum;  // C2
+        // fp = &sum;  // C2
 
         // Gọi con trỏ hàm
         fp(1,2);        // C1
-        (*fp)(1,2);     // C2
+        // (*fp)(1,2);     // C2
 
         return 0;
     }
@@ -253,6 +255,77 @@ _VD2: Tổng, hiệu, tích, thương._
        cal[i](a, b);
     }
 ```
+#### Level 2: Làm tham số truyền vào của hàm
+
+_VD1:_
+
+```c
+#include <stdio.h>
+
+int sum(int a, int b)
+{
+    return a + b;
+}
+
+int cal(int a, int b, int (*fp)(int,int))
+{
+    return fp(a,b);
+}
+
+int main ()
+{
+    int (*fp)(int,int);
+    fp = sum;
+
+    int data = cal(1,2, sum);
+    printf("%d\n", data);
+
+    return 0;
+}
+```
+_VD2:_
+
+```c
+#include <stdio.h>
+
+void tong(int a, int b)
+{
+    printf("%d + %d = %d\n", a, b, a + b);
+}
+
+void hieu(int a, int b)
+{
+    printf("%d - %d = %d\n", a, b, a - b);
+}
+
+void tich(int a, int b)
+{
+    printf("%d * %d = %d\n", a, b, a * b);
+}
+
+void thuong(int a, int b)
+{
+    printf("%d / %d = %d\n", a, b, a / b);
+}
+
+void Calculator(int a, int b, void (*fp)(int, int))
+{
+    fp(a, b);
+}
+
+int main(void)
+{
+    int a = 10;
+    int b = 5;
+
+    Calculator(a, b, tong);
+    Calculator(a, b, hieu);
+    Calculator(a, b, tich);
+    Calculator(a, b, thuong);
+
+    return 0;
+}
+```
 
 ## 6. Pointer to Constant (Con trỏ hằng)
 
@@ -263,7 +336,7 @@ _VD2: Tổng, hiệu, tích, thương._
     const int *ptr_const;
 ```
 
-- _VD3:_
+- _VD1:_
 ```c
     #include<stdio.h>
 
@@ -294,7 +367,7 @@ _VD2: Tổng, hiệu, tích, thương._
     int *const const_ptr = &value;
 ```
 
-- _VD4:_
+- _VD1:_
 
 ```c
     #include<stdio.h>
