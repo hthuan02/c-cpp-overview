@@ -8,7 +8,7 @@ int main()
     if (a == NULL)
     {
         printf("Cap phat khong thanh cong !\n");
-    }
+    } 
     else
     {
         int i = 0;
@@ -19,7 +19,7 @@ int main()
         {
             printf("%d ", a[i]);
         }
-        for (i = 0; i < n; i++)
+        for (i = 0; i < n; i++) 
         {
             a[i] = 28 + i; // *(a + i) = 28 cũng được
         }

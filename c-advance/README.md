@@ -93,20 +93,22 @@ Gồm 4 bước chính:
   <summary><h3>Bài 3: Pointer</h3></summary>
 
 ### Con trỏ là gì? Con trỏ được sử dụng như thế nào? 
-Con trỏ là một biến đặc biệt để lưu địa chỉ của một đối tượng (biến, hàm, mảng, struct,...). Con trỏ được sử dụng để truy cập thao tác thay đổi dữ liệu thông qua địa chỉ ô nhớ.
+> Trong C, con trỏ là một biến dùng để lưu địa chỉ bộ nhớ của một đối tượng. Nhờ lưu địa chỉ này, con trỏ có thể truy cập và thay đổi dữ liệu của đối tượng đó. 
+
+Con trỏ thường được dùng:
 - Truyền địa chỉ vào hàm để thay đổi giá trị biến ngoài hàm (pass by reference - truyền tham chiếu)
 - DSA: string/array/linked list/stack/queue.
 - Cấp phát động malloc/calloc/realloc và free.
 - Embedded: Dùng để truy cập thanh ghi phần cứng thông qua Memory-Mapped I/O.
 
-## 1. Kích thước của Con trỏ
+## 1. Pointer Size
 - Phụ thuộc vào kiến trúc của máy tinh và trình biên dịch(IDE).
 
 - Trên MCU phụ thuộc vào Vi xử lý
 _VD:_  STM32/32bit ---> 4byte
 
        STM8/8bit ----> 1byte
-## 2. Regular Pointer(Con trỏ với biến)
+## 2. Pointer Regular (Con trỏ với biến)
 ```c
     int a = 10;
     int *ptr = &a;
@@ -117,11 +119,11 @@ _VD:_  STM32/32bit ---> 4byte
     printf("Gia tri con tro: %d\n", *ptr); // giai tham chieu con tro ptr
 ```
 
-## 3. Array Pointer(Con trỏ mảng)
+## 3. Pointer to Array (Con trỏ với mảng)
 
 ```c
     int arr[] = { 2, 3, 5, 7, 8 };
-    int * ptr = arr;
+    int *ptr = arr;
 
     printf("Dia chi phan tu 1: %p\n", ptr) //2
     printf("Dia chi phan tu 2: %p\n", ptr+1) //3
@@ -130,11 +132,38 @@ _VD:_  STM32/32bit ---> 4byte
     printf("Gia tri phan tu 1: %d\n", *ptr) 
     printf("Gia tri phan tu 2: %d\n", *(ptr+1)) 
     printf("Gia tri phan tu 3: %d\n", *(ptr+2))
+```
+## 3.1 Array Pointer (Mảng các con trỏ)
 
+> Dùng để nhóm các địa chỉ rời rạc tạo thành địa chỉ liền kề trên RAM. Dể dàng truy xuất đọc data.
+
+```c
+    int a = 10;
+    int b = 20;
+    int c = 30;
+    int *arr[] = {&a, &b, &b};
+
+    for (int i = 0; i < 3; i ++)
+    {
+        // printf...
+    }
+```
+
+```c
+    int temp;
+    int rpm;
+    int speed;
+
+    int *sensor_list[] =
+    {
+        &temp,
+        &rpm,
+        &speed
+    };
 ```
 
 ## 4. Void Pointer
-> Là con trỏ không có kiểu dữ liệu cụ thể, và nó có thể trỏ đến bất kỳ biến có kiểu dữ liệu nào cũng được
+> Là con trỏ không có kiểu dữ liệu cụ thể, và nó có thể trỏ đến bất kỳ kiểu dữ liệu.
 >
 > Vì không có kiểu dữ liêu cụ thể, nên không dùng giải tham chiếu con trỏ tính kích thước --> Ép kiểu mới tính được kích thước.
 
@@ -144,10 +173,8 @@ _VD:_  STM32/32bit ---> 4byte
 - _VD1: Xuất giá trị kiểu int, char._
 
 ```c
-    #include <stdio.h>
-
-    int main{int argc, char const *argv[]){
-        void *ptr;
+    int main(){
+        void *ptr= NULL;
 
         int a = 10;
         ptr = &a;
@@ -156,23 +183,50 @@ _VD:_  STM32/32bit ---> 4byte
         char c = 'C';
         ptr = &c;
         printf("Dia chi: %p, Gia tri: %c\n", ptr, *(char*)(ptr));
+        
+        return 0; // có return nên không cần gán ptr = NULL cuối chương trình
     }
 ```
 
 ## 5. Function Pointer
-> Là con trỏ có thể trỏ đến địa chỉ của 1 hàm có kiểu dữ liệu cụ thể.
->
->Đây là biến giữ địa chỉ của hàm, mỗi thời điểm chỉ trỏ 1 hàm.
-
-- Thông thường sử dụng theo 2 cách:
-    - Là tham số truyền vào của 1 hàm.
-    - Lưu trữ địa chỉ của 1 hàm. 
+Thông thường sử dụng theo 2 cách:
+- Lưu trữ địa chỉ của 1 hàm. 
+- Là tham số truyền vào của 1 hàm.
 
 ```c
-   void (*func_ptr)(int, int);  // Khai bao con tro
+int (*p[])(int, int); // mảng con trỏ hàm
+int *p[5];   // mảng 5 phần tử là con trỏ kiểu int
+int (*p)[5]; // con trỏ trỏ đến "toàn bộ" mảng 5 phần tử. Vì thông thường con trỏ chỉ trỏ đến phần tử đầu mảng
+             // dùng trong mảng 2 chiều.
+int arr[5];
+int *p = arr;// Con trỏ trỏ đến mảng (phần tử đầu mảng).
 ```
 
-- _VD2: Tổng, hiệu, tích, thương._
+_VD0:_
+```c
+    ỉnt sum(int a, int b)
+    {
+        return a+b;
+    }
+
+    int main ()
+    {
+        // Khai báo con trỏ  hàm
+        int (*fp)(int, int);  
+
+        // Trỏ đếm hàm
+        fp = sum;   // C1
+        fp = &sum;  // C2
+
+        // Gọi con trỏ hàm
+        fp(1,2);        // C1
+        (*fp)(1,2);     // C2
+
+        return 0;
+    }
+```
+
+_VD2: Tổng, hiệu, tích, thương._
 
 ```c
     #include<stdio.h>
@@ -273,12 +327,21 @@ _VD:_  STM32/32bit ---> 4byte
 >
 >Khai báo nhưng chưa sử dụng liền.
 
+_Gán NULL cuối đối với biến global, hàm callback, free()_
+
 **Lưu ý:** 
 - Khi khai báo con trỏ mà chưa sử dụng thì dùng con trỏ NULL sẽ không bị **random** giá trị vào địa chỉ rác hoặc trùng lặp địa .
 - Khởi tạo và kết thúc phải gán NULL.
 
 ```c
     int *ptr = NULL;
+    // coding...
+    int main ()
+    {   
+        // coding...
+        ptr = NULL;
+        return 0;
+    }
 ```
 
 **ỨNG DỤNG:** 
@@ -286,7 +349,7 @@ _VD:_  STM32/32bit ---> 4byte
 - Đánh dấu điểm kết thúc của linked-list.
    
 ## 9. Pointer to Pointer(Con trỏ đến con trỏ)
->Là con trỏ mà có thể trỏ đến địa chỉ của các con trỏ khác, có nhiều cấp độ con trỏ (con trỏ cấp 2, 3,...).
+> Pointer to Pointer là một con trỏ dùng để lưu địa chỉ của một con trỏ khác. Nó thường được sử dụng khi cần thay đổi chính con trỏ trong hàm hoặc làm việc với dữ liệu nhiều cấp như argv, linked list hay cấp phát động.
 
 ```c
     int a = 10;

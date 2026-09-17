@@ -1261,8 +1261,9 @@ _(phần 2 ở C-Advanced)_
 #### INTERVIEW3: int (*p)[5] và int *p[5] có gì khác nhau?
 
 ```c
-int (*p)[5]: Là con trỏ đến mảng 5 phần tử kiểu int
-int *p[5]: Là mảng 5 phần tử con trỏ kiểu int
+int (*p[])(int, int); // mảng con trỏ hàm
+int (*p)[5]; // con trỏ trỏ đến mảng 5 phần tử
+int *p[5];   // mảng 5 phần tử là con trỏ kiểu int
 ```
 <img width="662" height="358" alt="Image" src="https://github.com/user-attachments/assets/6308032c-e00c-47c5-b849-f9e33b51a3c2" />
 
