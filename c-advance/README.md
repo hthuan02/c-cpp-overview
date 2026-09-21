@@ -202,7 +202,7 @@ int arr[5];
 int *p = arr;// Con trỏ trỏ đến mảng (phần tử đầu mảng).
 ```
 
-#### Level 1: Lưu địa chỉ của hàm
+#### Lvl 1: Lưu địa chỉ của hàm
 
 _VD0:_
 ```c
@@ -247,17 +247,60 @@ _VD2: Tổng, hiệu, tích, thương._
     }
 
     int main(int argc, char *argv[]) {
-    int a = 10, b = 5;
+        int a = 10, b = 5;
 
-    //Khai bao mang con tro Ham
-    void (*cal[])(int, int) = {tong, hieu, tich, thuong};
-    for (int i = 0; i < 4; i++) {
-       cal[i](a, b);
+        //Khai bao mang con tro Ham
+        void (*cal[])(int, int) = {tong, hieu, tich, thuong};
+        for (int i = 0; i < 4; i++) {
+            cal[i](a, b);
+        }
     }
 ```
-#### Level 2: Làm tham số truyền vào của hàm
+#### Dùng với mảng
+```c
+    /** Mảng con trỏ hàm
+     *  - Biến là mảng có vùng nhớ liền kề
+     * 
+     */
+    #include <stdio.h>
 
-_VD1:_
+    int sum(int a, int b) return a+b;
+    int sub(int a, int b) return a-b;
+    int multi(int a, int b) return a*b;
+
+    int main ()
+    {   
+        // Mảng function-pointer, địa chỉ function liền kề nhau trên RAM
+        int (*fp[])(int,int) =
+        {
+            sum,
+            sub,
+            multi
+        };
+
+        const char *str[] = 
+        {
+            "sum",
+            "sub",
+            "multi"
+        };
+
+        for (int i = 0; i < 3; i++)
+        {
+            printf("%p - %s=%d\n",
+                    fp+i,
+                    str[i],
+                    fp[i](1,2));
+        }
+
+        return 0;
+    }
+```
+
+
+#### Level 2: Tham số truyền vào của hàm 
+
+_VD1: (Bassic Callback) Gọi trực tiếp_
 
 ```c
 #include <stdio.h>
@@ -274,8 +317,8 @@ int cal(int a, int b, int (*fp)(int,int))
 
 int main ()
 {
-    int (*fp)(int,int);
-    fp = sum;
+    // int (*fp)(int,int);
+    // fp = sum;
 
     int data = cal(1,2, sum);
     printf("%d\n", data);
@@ -283,49 +326,37 @@ int main ()
     return 0;
 }
 ```
-_VD2:_
+#### Dùng với mảng
 
 ```c
-#include <stdio.h>
+    #include <stdio.h>
 
-void tong(int a, int b)
-{
-    printf("%d + %d = %d\n", a, b, a + b);
-}
+    int sum(int a, int b) return a+b;
+    int sub(int a, int b) return a-b;
+    int mul(int a, int b) return a*b;
 
-void hieu(int a, int b)
-{
-    printf("%d - %d = %d\n", a, b, a - b);
-}
+    int cal(int a, int b, int (*fp)(int,int))
+    {
+        return fp(a,b);
+    }
 
-void tich(int a, int b)
-{
-    printf("%d * %d = %d\n", a, b, a * b);
-}
+    int main ()
+    {
+        int(*fp[])(int,int) = {sum, sub, mul};
+        char const *str[] = {"Sum", "Sub", "Mul"};
 
-void thuong(int a, int b)
-{
-    printf("%d / %d = %d\n", a, b, a / b);
-}
+        for(int i; i < 3; i++)
+        {
+            printf("%s = %d\n",str[i], cal(1,2,fp[i]));
+        }
 
-void Calculator(int a, int b, void (*fp)(int, int))
-{
-    fp(a, b);
-}
-
-int main(void)
-{
-    int a = 10;
-    int b = 5;
-
-    Calculator(a, b, tong);
-    Calculator(a, b, hieu);
-    Calculator(a, b, tich);
-    Calculator(a, b, thuong);
-
-    return 0;
-}
+        return 0;
+    }
 ```
+
+
+#### Level 3: Lưu địa chỉ của hàm dùng với mảng
+
 
 ## 6. Pointer to Constant (Con trỏ hằng)
 
@@ -356,6 +387,7 @@ int main(void)
         a = 15;
         printf("%p\n", ptr_const);
         printf("%d\n", *ptr_const); //ptr_const = 15
+    }
 ```
 ## 7. Constant Pointer(Hằng con trỏ)
 
@@ -384,6 +416,7 @@ int main(void)
         *const_ptr = 15; // hay doi gia tri tai con tro luon.
         printf("%p\n", ptr_const);
         printf("%d\n", *ptr_const); //ptr_const = 15
+    }
 ```
 
 
@@ -432,6 +465,14 @@ _Gán NULL cuối đối với biến global, hàm callback, free()_
 **Lưu ý:** 
 - Được sử dụng trong kiểu dữ liệu Json, cấu trúc dữ liệu list.
 - Đối với con trỏ cấp 2 là lưu địa chỉ của con trỏ cấp 1, chứ không phải lưu địa chỉ mà con trỏ đang trỏ đến.             
+
+### Callback là gì?
+
+> Callback là hàm được đăng ký bằng function pointer. Khi có sự kiện xảy ra (VD: Timer tràn, button, CB nhận,...) thì Driver sẽ gọi hàm đã đăng ký ra để xử lý sự kiện. Callback giúp tách phần phát hiện sự kiện khỏi phần xử lý sự kiện.
+
+_VD: Thực tế Shipper giao hàng_
+1. Gọi hàm trực tiếp là Shipper đến nơi giao hàng và **biết đơn hàng đó của ai**, chỉ cần đến nơi là gọi đúng người đó xuống lấy.
+2. Callback là Shipper đến nơi giao hàng **không biết đơn hàng của ai**, lúc này phải dựa vào thông tin khách hàng đã đăng ký. Anh A sđt bao nhiêu, chị B sđt, công ty C,... thì Shipper mới có thể giao đúng đơn hàng cho người đó được.
 
 </details>
 
