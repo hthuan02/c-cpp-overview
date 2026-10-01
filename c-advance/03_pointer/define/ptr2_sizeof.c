@@ -6,10 +6,20 @@ int main ()
     int *ptr = arr;
 
     // Nó trả về kiểu size_t --> %zu là định dạng đúng
-    printf("%zu\n", sizeof(*ptr)); // lấy kích thước data_type mà con trỏ đang trỏ tới: 4
-    printf("%zu\n", sizeof(ptr));  // kích thước con trỏ: 8 
-    printf("%zu\n", sizeof(arr));  // kích thước mảng: <data_type> * <element_number> = 4 * 5
-    printf("\n");
-    
+    printf("%zu\n", sizeof(*ptr));      // là int -> 4
+    printf("%zu\n", sizeof(ptr));       // là int * -> con trỏ 8
+    printf("%zu\n", sizeof(arr));       // là 5 * sizeof(int) = 5 *4
+    printf("%zu\n", sizeof(&arr));      // là int (*)[5] -> con trỏ trỏ đến mảng 5 ptử int = 8
+    printf("%zu\n", sizeof(&arr[0]));   // là int *
+    printf("%zu\n", sizeof(arr[0]));    // là int = 4
+    printf("%zu\n", sizeof(arr[1]));    // 4
+      
+    // | Biểu thức | Kiểu         |
+    // | --------- | ------------ |
+    // | `arr`     | `int *`      |
+    // | `&arr[0]` | `int *`      |
+    // | `&arr`    | `int (*)[5]` |
+
+
     return 0;
 }

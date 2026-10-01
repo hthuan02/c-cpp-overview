@@ -200,6 +200,7 @@ int (*p)[5]; // con trỏ trỏ đến "toàn bộ" mảng 5 phần tử. Vì th
              // dùng trong mảng 2 chiều.
 int arr[5];
 int *p = arr;// Con trỏ trỏ đến mảng (phần tử đầu mảng).
+int *p = &arr[0]
 ```
 
 #### Lvl 1: Lưu địa chỉ của hàm
