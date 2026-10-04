@@ -456,16 +456,69 @@ _Gán NULL cuối đối với biến global, hàm callback, free()_
 - Đánh dấu điểm kết thúc của linked-list.
    
 ## 9. Pointer to Pointer(Con trỏ đến con trỏ)
-> Pointer to Pointer là một con trỏ dùng để lưu địa chỉ của một con trỏ khác. Nó thường được sử dụng khi cần thay đổi chính con trỏ trong hàm hoặc làm việc với dữ liệu nhiều cấp như argv, linked list hay cấp phát động.
+> Pointer to Pointer (con trỏ cấp 2) là một con trỏ dùng để lưu địa chỉ của một con trỏ khác.
+>
+> Nó cho phép truy cập đến giá trị mà con trỏ cấp 1 đang trỏ tới, đồng thời có thể thay đổi giá trị/địa chỉ mà con trỏ cấp 1 đang lưu thông qua con trỏ cấp 2.
 
 ```c
     int a = 10;
-    int *ptr = &a;
-    int **ptr = &ptr;
+    int *p = &a;
+    int **pp = &p;
+
+    // p là địa chỉ &a
+    // *p là giá trị a
+    // &p là địa chỉ    p
+    // pp là địa chỉ p
+    // &pp là địa chỉ của pp
+    // **pp là giá trị *p là a
+    // *pp là giá trị của p là địa chỉ của &a
+    // *pp = p = &a  (&a = 0x000...)
+    // **pp = *p = a (a = 10)
+    // pp = &p
 ```
-**Lưu ý:** 
-- Được sử dụng trong kiểu dữ liệu Json, cấu trúc dữ liệu list.
-- Đối với con trỏ cấp 2 là lưu địa chỉ của con trỏ cấp 1, chứ không phải lưu địa chỉ mà con trỏ đang trỏ đến.             
+
+```c
+int x = 10;
+int *p = &x;
+int **pp = &p;
+
+// x    -> 10
+// &x   -> 0x0001
+// p    -> &x
+// *p   -> x = 10
+// &p   -> 0x00AB
+// pp   -> &p
+// *pp  -> p  -> &x
+// **pp -> *p -> x
+// &pp  -> 0xff00 
+```
+
+#### Kiểu dữ liệu tương ứng với data & address trong pointer
+
+```c
+// a
+// │
+// ├── a    : int
+// └── &a   : int *
+
+// p
+// │
+// ├── p    : int *
+// ├── *p   : int
+// └── &p   : int **
+
+// p1
+// │
+// ├── p1   : int **
+// ├── *p1  : int *
+// ├── **p1 : int
+// └── &p1  : int ***
+```
+- Lấy `&` giảm 1 cấp.
+- Deference giảm 1 cấp pointer.
+
+**Ứng dụng:** 
+- Json, Linked list, argv
 
 ### Callback là gì?
 
