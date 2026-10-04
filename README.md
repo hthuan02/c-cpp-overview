@@ -1,16 +1,16 @@
 ## SUMMARIZE
-1. Bit manipulation (set/reset/check/toggle & packing/unpaking/bitmask)
+1. _OK Bit manipulation (set/reset/check/toggle & packing/unpaking/bitmask)
 2. Macro (val/fucn/variadic)
-3. Storage classes (extern/static/volatile/register)
-4. Struct/Union/Enum (sizeof)
-5. Kết hợp với bit field (union(struct())/field struct/field union)
-6. Pointer (void/func/)
-7. Memory layout
-8. DSA (string/array/list/stack/queue & sort/search)
+3. _OK Storage classes (extern/static/volatile/register)
+4. _OK Struct/Union/Enum/bitfiled (sizeof)
+5. _OK Kết hợp với bit field (union(struct())/field struct/field union)
+6. _OK Pointer (void/func/ptr-ptr/ptr-const/const-to-ptr/null/array/operator/sizeof)
+7. _OK Memory layout (Read only/Read-Write segment)
+8. _OK DSA (string/array/list/stack/queue & sort/search)
 
 ---
 
-## CAUSTION
+## CAUTION
 ### 1. 3.55 & 3.55f
 
 ```c
@@ -31,7 +31,7 @@
     // 300 - 256 = 44
     // giá trị của char là 44
 ``` 
-
+# IDEAS FOR FUTURE PROJECT VIHICLES ECU
 # Version 1.0
 ## Cruise Control: kiểm soát giới hạn tốc độ lái
 ## giới hạn tốc độ tùy theo tuyến đường
