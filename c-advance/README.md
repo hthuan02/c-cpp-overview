@@ -272,12 +272,7 @@ _VD2: Tổng, hiệu, tích, thương._
     int main ()
     {   
         // Mảng function-pointer, địa chỉ function liền kề nhau trên RAM
-        int (*fp[])(int,int) =
-        {
-            sum,
-            sub,
-            multi
-        };
+        int (*fp[])(int,int) = {sum ,sub ,multi};
 
         const char *str[] = 
         {
@@ -293,6 +288,8 @@ _VD2: Tổng, hiệu, tích, thương._
                     str[i],
                     fp[i](1,2));
         }
+        // &fp[i] - địa chỉ liền kề xếp trong arr (sizeof=8), cách nhau vùng nhớ 8 byte
+        // fp[i]  - địa chỉ của bản thân function, nằm lộn xộn trong RAm
 
         return 0;
     }
@@ -522,7 +519,7 @@ int **pp = &p;
 
 ### Callback là gì?
 
-> Callback là hàm được đăng ký bằng function pointer. Khi có sự kiện xảy ra (VD: Timer tràn, button, CB nhận,...) thì Driver sẽ gọi hàm đã đăng ký ra để xử lý sự kiện. Callback giúp tách phần phát hiện sự kiện khỏi phần xử lý sự kiện.
+> Callback là hàm được truyền/đăng ký thông qua function pointer. Khi có sự kiện xảy ra (VD: Timer tràn, button, CB nhận,...) thì Driver sẽ gọi hàm đã đăng ký ra để xử lý sự kiện. Callback giúp tách phần phát hiện sự kiện khỏi phần xử lý sự kiện.
 
 _VD: Thực tế Shipper giao hàng_
 1. Gọi hàm trực tiếp là Shipper đến nơi giao hàng và **biết đơn hàng đó của ai**, chỉ cần đến nơi là gọi đúng người đó xuống lấy.

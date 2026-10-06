@@ -23,8 +23,7 @@ int cal (int a, int b, int(*fp)(int, int))
 int main ()
 {
     printf("%d\n", cal(1,2,sum));
-    printf("%d\n", cal(1,2,sub));
-    printf("%d\n", cal(1,2,mul));
+
     
     return 0;
 }
