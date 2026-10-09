@@ -1,7 +1,11 @@
 /**
- *  Chuyển hexan sang binary, kiểm tra từng byte một
+ *  Kiểm tra từng byte một
  *  Đúng -> 1
  *  Sai -> 0
+ * 
+ *  Callback theo từng byte một.
+ *  @param uint8_t data
+ *  -> Phát hiện byte đặc biệt 0xAA
  */
 
 #include <stdio.h>
