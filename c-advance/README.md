@@ -519,12 +519,76 @@ int **pp = &p;
 
 ### Callback là gì?
 
-> Callback là hàm được truyền/đăng ký thông qua function pointer. Khi có sự kiện xảy ra (VD: Timer tràn, button, CB nhận,...) thì Driver sẽ gọi hàm đã đăng ký ra để xử lý sự kiện. Callback giúp tách phần phát hiện sự kiện khỏi phần xử lý sự kiện.
+> Callback là hàm được truyền/đăng ký thông qua function pointer. Khi có sự kiện xảy ra (VD: Timer tràn, button, CB nhận,...) thì Driver sẽ gọi hàm đã đăng ký ra để xử lý sự kiện. Callback giúp tách phần driver với application, có thể tái sử dụng Driver.
 
-_VD: Thực tế Shipper giao hàng_
-1. Gọi hàm trực tiếp là Shipper đến nơi giao hàng và **biết đơn hàng đó của ai**, chỉ cần đến nơi là gọi đúng người đó xuống lấy.
-2. Callback là Shipper đến nơi giao hàng **không biết đơn hàng của ai**, lúc này phải dựa vào thông tin khách hàng đã đăng ký. Anh A sđt bao nhiêu, chị B sđt, công ty C,... thì Shipper mới có thể giao đúng đơn hàng cho người đó được.
 
+### So sánh Callback & gọi hàm trực tiếp
+
+1. Nếu gọi hàm trực tiếp
+
+UART Driver viết cố định như sau:
+```c
+void UART_ReceiveHandler(void)
+{
+    // Nhận được dữ liệu UART
+    LED_On();  // Luôn bật LED
+}
+```
+
+Vấn đề: Nếu ứng dụng khác muốn xử lý dữ liệu hoặc cập nhật trạng thái thay vì bật LED, phải sửa code Driver.
+
+2. Nếu sử dụng Callback
+
+UART Driver không cố định hành động cần thực hiện:
+
+```c
+#include <stdint.h>
+
+static void (*UART_Callback)(uint8_t data) = 0;
+
+void UART_RegisterCallback(void (*callback)(uint8_t))
+{
+    UART_Callback = callback;
+}
+
+void UART_ReceiveHandler(uint8_t data)
+{
+    if (UART_Callback != 0)
+    {
+        UART_Callback(data);
+    }
+}
+```
+
+Application tự quyết định hàm xử lý:
+
+```c
+void App_LED_Callback(uint8_t data)
+{
+    // Xử lý theo yêu cầu: bật LED
+}
+
+void App_Data_Callback(uint8_t data)
+{
+    // Xử lý theo yêu cầu: lưu hoặc phân tích dữ liệu
+}
+
+int main(void)
+{
+    UART_RegisterCallback(App_LED_Callback);
+
+    // Khi UART nhận dữ liệu:
+    UART_ReceiveHandler('A');
+
+    // Nếu muốn đổi cách xử lý:
+    UART_RegisterCallback(App_Data_Callback);
+    UART_ReceiveHandler('B');
+
+    while (1)
+    {
+    }
+}
+```
 </details>
 
 

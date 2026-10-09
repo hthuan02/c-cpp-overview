@@ -1,42 +1,41 @@
 #include <stdio.h>
 
-int sum (int a, int b)
+// Hàm xử lý, tính toán, truyền data,...
+void tx_UART_Transmit(void)
 {
-    return a + b;
+    printf("Data transmit sucessful.\n");
 }
 
-int sub (int a, int b)
-{
-    return a - b;
+// funv_ptr lưu callback
+static void (*UART_Callback)(void) = NULL;
+
+// Đăng ký hàm callback
+void RegisterCallback(void (*fp)(void))
+{   
+    // Lưu vào UART_Callback
+    UART_Callback = fp; 
 }
 
-int mul (int a, int b)
+// Yêu cầu/ Kích hoạt callback
+void tx_UART_Handler(void)
 {
-    return a * b;
-}
+    if(UART_Callback == NULL)
+    {
+        return;
+    }
 
-int div (int a, int b)
-{
-    return a /b;
-}
-
-int cal (int a, int b, int (*fp)(int, int))
-{
-    return fp(a,b);
+    UART_Callback();
 }
 
 int main ()
 {   
-    int (*fp[])(int, int) = {sum, sub, mul, div};
+    // Đăng ký hàm, truyền param
+    RegisterCallback(tx_UART_Transmit);
+    // Truyền 14c4 vào 
 
-    for (int i = 0; i < 4; i++)
-    {
-        cal(1,2,fp[i]);
-        &fp[i];
-        (void *)fp[i];
-    }
-    // 0x7ff6a8b21490
-    
+
+    tx_UART_Handler();
+
 
     return 0;
 }
