@@ -1,9 +1,21 @@
+/**
+ *  Kiểm tra 1 byte data theo buffer
+ *  - Đúng -> 1
+ *  - Sai -> 0
+ *  - Kết hợp typdef(alias) định nghĩa <func_ptr> thành <data_type>
+ * 
+ *  @param uint8_t *data length
+ *  -> Phát hiện byte đặc biệt 0xAA
+ */
+
 #include <stdio.h>
 #include <stdint.h>
 
 #define UART_DATA_CHECK 0x44
 
-static uint8_t (*callback_uart)(const uint8_t *, uint8_t ) = NULL;
+typedef uint8_t (*callback_t)(const uint8_t *, uint8_t );
+
+static callback_t callback_uart = NULL;
 
 uint8_t uart_tx_check_buffer(const uint8_t *data, uint8_t size)
 {   
@@ -26,7 +38,7 @@ uint8_t uart_tx_check_buffer(const uint8_t *data, uint8_t size)
     return 0U;
 }
 
-void register_callback (uint8_t (*fp)(const uint8_t *, uint8_t))
+void register_callback (callback_t fp)
 {
     callback_uart = fp;
 }

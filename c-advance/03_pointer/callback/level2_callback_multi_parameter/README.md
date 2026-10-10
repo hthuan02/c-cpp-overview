@@ -3,11 +3,6 @@
 - Callback có return
 - Multi parameter callback (pointer, buffer + length, const pointer)
 
-
-Level 3 — Architecture
-typedef, struct chứa callback, đăng ký/hủy đăng ký, kiểm tra NULL, user_data cơ bản
-
-
 Level 4 — Event-driven
 Callback từ sự kiện UART, Timer, Button; phân biệt ISR và xử lý trong main()
 

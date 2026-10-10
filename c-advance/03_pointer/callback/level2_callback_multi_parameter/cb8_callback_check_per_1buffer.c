@@ -1,3 +1,12 @@
+/**
+ *  Kiểm 1 byte data theo buffer
+ *  - Đúng -> 1
+ *  - Sai -> 0
+ * 
+ *  @param uint8_t *data length
+ *  -> Phát hiện byte đặc biệt 0xAA
+ */
+
 #include <stdio.h>
 #include <stdint.h>
 
