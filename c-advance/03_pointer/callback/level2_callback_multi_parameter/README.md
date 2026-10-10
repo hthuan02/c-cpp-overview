@@ -1,5 +1,6 @@
 # Level 2 - Parameter & Data
 
+- Callback có return
 - Multi parameter callback (pointer, buffer + length, const pointer)
 
 

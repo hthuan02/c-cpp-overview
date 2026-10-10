@@ -2,4 +2,3 @@
 
 - Hiểu function pointer
 - Đăng ký và gọi callback
-- Callback có return
