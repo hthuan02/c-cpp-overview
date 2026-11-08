@@ -519,7 +519,9 @@ int **pp = &p;
 
 ### Callback là gì?
 
-> Callback là hàm được truyền/đăng ký thông qua function pointer. Khi có sự kiện xảy ra (VD: Timer tràn, button, CB nhận,...) thì Driver sẽ gọi hàm đã đăng ký ra để xử lý sự kiện. Callback giúp tách phần driver với application, có thể tái sử dụng Driver.
+> Callback là hàm được truyền/đăng ký thông qua function pointer. Khi có sự kiện xảy ra (VD: Timer tràn, button, CB nhận,...) thì Driver sẽ gọi hàm đã đăng ký ra để xử lý sự kiện.
+>
+> Callback giúp tách phần driver với application, có thể tái sử dụng Driver. Giảm sự phụ thuộc giữa các module.
 
 
 ### So sánh Callback & gọi hàm trực tiếp
@@ -682,9 +684,7 @@ _VD2: Static biến cục bộ_
 
 ## 3. Volatile
 
-**Biến volatile là gì?** Khai báo biến mà biến này không sử dụng, tránh bị complier tối ưu hóa xóa cái biến này đi.
-
-> Dùng trong code cho MCU, ép buộc 1 biến truy cập đến địa chỉ và nó không bị xóa khỏi bộ nhớ khi biến đó k được sử dụng.
+> Khi khai báo 1 biến có từ khóa `volatile` thì báo với compiler rằng đối tượng đó có thể tác động và quan sát được. Nên khi compile chương trình compiler không được tự ý loại bỏ hoặc tối ưu hóa xóa mất biến đó.
 
 ```c
      // Dùng trong code VDK
@@ -693,8 +693,6 @@ _VD2: Static biến cục bộ_
      volatile unit8_t var = 0;
 
 ```
-
-**Ứng dụng:** Đọc giá trị cảm biến nhiệt độ nhiệt độ, ví dụ có 10 giá trị 30 độ C giống nhau, thì có nguy cơ biến CB nhiệt độ bị xóa khỏi bộ nhớ. Vì vậy, sử dụng biến Volatile đảm bảo cảm biến nhận đúng giá trị không bị cấp thoát, hạn chế sai số.
 
 ## 4. Register
 
